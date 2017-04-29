@@ -58,7 +58,7 @@ app.config(function($routeProvider) {
 
 
 // Set Control
-app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
+app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
 
   // Control for login
   this.submit = function() {
@@ -73,15 +73,14 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', functi
       console.log(response.data);
       if (response.data !== "Wrong password") {
         $rootScope.loggedIn = true;
+        $cookies.put('myFavorite', 'oatmeal'); //testvalue
         $location.path('/dashboard');
-
       }
-
-
     }, function(error) {
       console.log("login failure", response);
     });
   }
+
 
   // create user ... from register form
   this.register = function() {
@@ -100,26 +99,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', functi
       console.log("Register failure", response);
     });
   }
-
-
-  //
-  //
-  // $rootScope.username = $scope.username; // $rootScope
-  // $rootScope.password = $scope.password;
-  //
-  // console.log($scope.username + "  " + $scope.password);
-  //
-  // if ($scope.username === "admin" && $scope.password === "admin") {
-  //   $rootScope.loggedIn = true;
-  //   $location.path('/dashboard');
-  //
-  // } else {
-  //   alert("wrong password");
-  // }
-
-  // };
-
-
 
 }]);
 
