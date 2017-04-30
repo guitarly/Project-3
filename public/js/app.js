@@ -42,10 +42,11 @@ app.config(function($routeProvider) {
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
   var vm = this;
   this.currentUser;
+
   // Control for login
   this.submit = function() {
-
-    console.log(this);
+    $rootScope.loggedIn = false;
+    console.log("Loginhere...");
     $http({
       method: 'POST',
       url: "/login",
@@ -61,8 +62,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         $location.path('/dashboard');
       } else {
         $scope.error_msg = response.data;
+        $rootScope.loggedIn = false;
       }
     }, function(error) {
+      $rootScope.loggedIn = false;
       console.log("login failure", response);
     });
   }
@@ -91,7 +94,12 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     }, function(error) {
       console.log("Register failure", response);
     });
-  }
+  };
+
+  this.logout = function() {
+    console.log("logout");
+    $rootScope.loggedIn = false;
+  };
 
 }]);
 
