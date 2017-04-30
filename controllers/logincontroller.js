@@ -20,7 +20,7 @@ router.post('/', function(req, res) {
 
         if (bcrypt.compareSync(req.body.password, foundUser.password, function(err, res) {
             if (err) {
-              // req.flash('error_msg', 'Wrong password');
+              req.flash('error_msg', 'Wrong password');
               res.json('Wrong password');
             }
           })) {
@@ -59,13 +59,17 @@ router.post('/register', function(req, res) {
   // var password_confirm = req.body.password_confirm;
 
   // Validation
-  // req.assert('password', '6 to 20 characters required').len(6, 20);
-  // req.checkBody('name', 'Name is required').notEmpty();
-  // req.checkBody('username', 'Username is required.').notEmpty();
-  // req.checkBody('password', 'Password is required').notEmpty();
+  req.assert('password', '6 to 20 characters required').len(6, 20);
+  req.checkBody('firstname', 'First name is required').notEmpty();
+  req.checkBody('lastname', 'Last name is required').notEmpty();
+  req.checkBody('username', 'Username is required.').notEmpty();
+  req.checkBody('password', 'Password is required').notEmpty();
   // req.checkBody('password_confirm', 'Passwords do not match').equals(req.body.password);
 
-  // var errors = req.validationErrors();
+  var errors = req.validationErrors();
+  if (errors) {
+    console.log(errors);
+  }
 
   // if (errors) {
   //
