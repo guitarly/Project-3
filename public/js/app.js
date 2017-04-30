@@ -17,7 +17,10 @@ app.config(function($routeProvider) {
         }
 
       },
-      templateUrl: 'views/dashboard.html'
+
+      templateUrl: 'views/dashboard.html',
+      controller: 'loginCtr',
+      controllerAs: 'vm'
 
     })
     .when('/register', {
@@ -30,7 +33,6 @@ app.config(function($routeProvider) {
       redirectTo: '/'
     });
 
-
 });
 
 
@@ -38,7 +40,8 @@ app.config(function($routeProvider) {
 
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
-  var controller = this;
+  var vm = this;
+  this.currentUser;
   // Control for login
   this.submit = function() {
 
@@ -54,6 +57,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       if (typeof response.data === 'object') {
         $scope.error_msg = null;
         $rootScope.loggedIn = true;
+        $rootScope.currentUser = response.data;
         $location.path('/dashboard');
       } else {
         $scope.error_msg = response.data;
