@@ -2,12 +2,9 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 var Users = require('../models/users.js');
+var path = require('path');
 
 router.post('/', function(req, res) {
-
-
-
-
 
   if (req.body.password) {
     Users.findOne({
@@ -15,7 +12,7 @@ router.post('/', function(req, res) {
     }, function(err, foundUser) {
       console.log(foundUser);
       if (!foundUser) {
-        // req.flash('error_msg', 'No User Found');
+        req.flash('error_msg', 'No User Found');
         console.log("No User found");
         res.json("No user found");
 
@@ -79,14 +76,14 @@ router.post('/register', function(req, res) {
   }, function(err, foundUser) {
     if (!err) {
       if (foundUser) {
-        // req.flash('error_msg', 'The username is already taken.');
-        res.json('The username is already taken. ');
+        req.flash('error_msg', 'The username is already taken.');
+        res.json("User already exists");
       } else {
         // Create new USER with bcrypt password
         req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
         Users.create(req.body, function(err, createdUser) {
           if (err) throw err;
-          // req.flash('success_msg', "You are registered can now login.");
+          req.flash('success_msg', "You are registered can now login.");
           res.json(createdUser);
         });
 

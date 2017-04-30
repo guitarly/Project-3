@@ -30,27 +30,6 @@ app.config(function($routeProvider) {
       redirectTo: '/'
     });
 
-  // ---------------
-  run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
-
-  function run($rootScope, $location, $cookies, $http) {
-    // keep user logged in after page refresh
-    $rootScope.globals = $cookies.getObject('globals') || {};
-    if ($rootScope.globals.currentUser) {
-      $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
-    }
-
-    $rootScope.$on('$locationChangeStart', function(event, next, current) {
-      // redirect to login page if not logged in and trying to access a restricted page
-      var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
-      var loggedIn = $rootScope.globals.currentUser;
-      if (restrictedPage && !loggedIn) {
-        $location.path('/login');
-      }
-    });
-  }
-  // -------------
-
 
 });
 
@@ -59,7 +38,7 @@ app.config(function($routeProvider) {
 
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
-
+  var controller = this;
   // Control for login
   this.submit = function() {
 
@@ -70,11 +49,14 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       data: this
     }).then(function(response) {
       console.log("login success", response);
-      console.log(response.data);
-      if (response.data !== "Wrong password") {
+      console.log(typeof response.data);
+
+      if (typeof response.data === 'object') {
+        $scope.error_msg = null;
         $rootScope.loggedIn = true;
-        $cookies.put('myFavorite', 'oatmeal'); //testvalue
         $location.path('/dashboard');
+      } else {
+        $scope.error_msg = response.data;
       }
     }, function(error) {
       console.log("login failure", response);
@@ -93,7 +75,14 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       data: this
     }).then(function(response) {
       console.log("Register success", response);
-      $location.path('/dashboard');
+      if (typeof response.data === 'object') {
+        $scope.error_msg = null;
+        $rootScope.loggedIn = true;
+        $location.path('/dashboard');
+      } else {
+        $scope.error_msg = response.data;
+      }
+
 
     }, function(error) {
       console.log("Register failure", response);

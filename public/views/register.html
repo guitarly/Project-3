@@ -1,5 +1,11 @@
 <div class="col-md-6 col-md-offset-3">
   <h2>Register</h2>
+
+  <div class="alert alert-danger" ng-if="error_msg.length > 0">
+    {{error_msg}}
+  </div>
+
+
   <form name="form" ng-submit="vm.register()" role="form">
     <div class="form-group" ng-class="{ 'has-error': form.firstname.$dirty && form.firstname.$error.required }">
       <label for="username">First name</label>
