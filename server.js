@@ -66,6 +66,8 @@ var loginController = require('./controllers/logincontroller.js');
 app.use('/login', loginController);
 var childsController = require('./controllers/childs.js');
 app.use('/childs', childsController);
+var mealsController = require('./controllers/meals.js');
+app.use('/meals', mealsController);
 
 
 mongoose.connection.once('open', function() {
