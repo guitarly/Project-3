@@ -5,7 +5,9 @@ var Users = require('../models/users.js');
 
 
 router.get('/', function(req, res) {
-  console.log('iam in users - check in..');
+  Users.find({}, function(err, foundUsers) {
+    res.json(foundUsers);
+  })
   // Users.find({}, function(err, foundUsers) {
   //
   //   res.json(foundUsers);
@@ -20,4 +22,5 @@ router.post('/', function(req, res) {
   //   // res.json(info);
   // });
 });
+
 module.exports = router;
