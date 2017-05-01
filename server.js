@@ -1,9 +1,12 @@
 var express = require('express');
 var app = express();
-var port = 3001 || process.env.PORT;
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
+var config = require('./config/database.js'); // get our config file
+
+
+var morgan = require('morgan');
 // ----
 var session = require('express-session');
 var expressValidator = require('express-validator');
@@ -15,12 +18,16 @@ Strategy;
 
 
 var port = process.env.PORT || 3001;
-var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
+// var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
+var mongoDBURI = config.database;
 
 mongoose.connect(mongoDBURI);
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
+// use morgan to log requests to the console
+app.use(morgan('dev'));
 
 // Express session
 app.use(session({

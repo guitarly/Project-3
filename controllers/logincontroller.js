@@ -3,6 +3,8 @@ var router = express.Router();
 var bcrypt = require('bcrypt');
 var Users = require('../models/users.js');
 var path = require('path');
+var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+var config = require('../config/database.js'); // get our config file
 
 router.post('/', function(req, res) {
 
@@ -10,33 +12,57 @@ router.post('/', function(req, res) {
     Users.findOne({
       username: req.body.username
     }, function(err, foundUser) {
-      console.log(foundUser);
       if (!foundUser) {
-        req.flash('error_msg', 'No User Found');
-        console.log("No User found");
-        res.json("No user found");
+        // req.flash('error_msg', 'No User Found');
+        // console.log("No User found");
+        // res.json("No user found");
+
+        res.json({
+          success: false,
+          message: 'Authentication failed. User not found.'
+        });
 
       } else {
 
         if (bcrypt.compareSync(req.body.password, foundUser.password, function(err, res) {
             if (err) {
-              req.flash('error_msg', 'Wrong password');
-              res.json('Wrong password');
+
+              res.json({
+                success: false,
+                message: 'Wrong password.'
+              });
             }
           })) {
-          // req.session.currentuser = foundUser;
-          res.json(foundUser);
+          console.log("iam here...in the server - login ok");
+          // passed.. login good
+          // res.json(foundUser);
+          var token = jwt.sign(foundUser, config.secret, {
+            expiresIn: 60 * 60 * 24 // expires in 24 hours
+          });
+
+          // return the information including token as JSON
+          res.json({
+            user: foundUser,
+            success: true,
+            message: 'Successful Login',
+            token: token
+          });
+
         } else {
-          // req.flash('error_msg', 'Wrong password');
-          res.json('Wrong password');
+          res.json({
+            success: false,
+            message: 'Wrong password.'
+          });
         }
 
       }
     });
 
   } else {
-    // req.flash('error_msg', 'Wrong password');
-    res.json('Wrong password');
+    res.json({
+      success: false,
+      message: 'Wrong password.'
+    });
 
   }
 
@@ -44,14 +70,6 @@ router.post('/', function(req, res) {
 
 // create new record
 router.post('/register', function(req, res) {
-  console.log("create User", req.body);
-  // Users.create(req.body, function(err, info) {
-  //   console.log(req.body);
-  //   // res.json(info);
-  // });
-
-  //--------
-
   var firstName = req.body.firstname;
   var lastName = req.body.lastname;
   var username = req.body.username;
@@ -71,24 +89,25 @@ router.post('/register', function(req, res) {
     console.log(errors);
   }
 
-  // if (errors) {
-  //
-  // } else {
-
   Users.findOne({
     username: req.body.username
   }, function(err, foundUser) {
     if (!err) {
       if (foundUser) {
-        req.flash('error_msg', 'The username is already taken.');
-        res.json("User already exists");
+        // req.flash('error_msg', 'The username is already taken.');
+        res.json("The username is already taken.");
       } else {
         // Create new USER with bcrypt password
         req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
         Users.create(req.body, function(err, createdUser) {
           if (err) throw err;
-          req.flash('success_msg', "You are registered can now login.");
-          res.json(createdUser);
+          // req.flash('success_msg', "You are registered can now login.");
+          // res.json(createdUser);
+          res.json({
+            user: createdUser,
+            success: true,
+            message: 'Create User Success'
+          });
         });
 
       }

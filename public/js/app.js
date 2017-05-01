@@ -39,9 +39,10 @@ app.config(function($routeProvider) {
 
 
 // Set Control
-app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
+app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
   var vm = this;
   this.currentUser;
+
 
   // Control for login
   this.submit = function() {
@@ -51,17 +52,25 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       method: 'POST',
       url: "/login",
       data: this
+      // headers: {
+      //   'Authorization': "Bearer" + JSON.parse(localStorage.getItem('token'))
+      // }
     }).then(function(response) {
-      console.log("login success", response);
-      console.log(typeof response.data);
 
-      if (typeof response.data === 'object') {
+      if (response.data.success === true) {
+
         $scope.error_msg = null;
         $rootScope.loggedIn = true;
-        $rootScope.currentUser = response.data;
+        $rootScope.currentUser = response.data.user;
+
+        localStorage.setItem('token', JSON.stringify(response.data.token));
+        // userPersistenceService.setCookieData(response.data.token);
+        // $cookies.put("userName", response.data.token);
+        // $window.sessionStorage.setItem('token', JSON.stringify(response.data.token));
+
         $location.path('/dashboard');
       } else {
-        $scope.error_msg = response.data;
+        $scope.error_msg = response.data.message;
         $rootScope.loggedIn = false;
       }
     }, function(error) {
@@ -74,7 +83,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   // create user ... from register form
   this.register = function() {
     console.log("Register.. submit");
-    console.log(this);
 
     $http({
       method: 'POST',
@@ -82,10 +90,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       data: this
     }).then(function(response) {
       console.log("Register success", response);
-      if (typeof response.data === 'object') {
+      if (response.data.success === true) {
         $scope.error_msg = null;
-        $rootScope.loggedIn = true;
-        $location.path('/dashboard');
+        // $rootScope.loggedIn = true;
+        $location.path('/login');
       } else {
         $scope.error_msg = response.data;
       }
@@ -96,15 +104,62 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     });
   };
 
+  // Get all user .. testing..
+  $scope.getUsers = function() {
+    $http({
+      url: '/users',
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response);
+      if (response.data.status == 401) {
+        this.error = "Unauthorized";
+      } else {
+        this.users = response.data;
+        $scope.allUsers = response.data;
+        // $location.path('/dashboard');
+      }
+    }.bind(this));
+  };
+
   this.logout = function() {
     console.log("logout");
     $rootScope.loggedIn = false;
+    localStorage.clear('token');
+    // userPersistenceService.clearCookieData('userName');
+    location.reload();
   };
+
 
 }]);
 
 // Set Control
-app.controller('UserController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
+app.controller('UserController', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', function($http, $scope, $location, $rootScope, $cookies, $window) {
+
 
 
 }]);
+
+app.factory("userPersistenceService", [
+  "$cookies",
+  function($cookies) {
+    var userName = "";
+
+    return {
+      setCookieData: function(username) {
+        userName = username;
+        $cookies.put("userName", username);
+      },
+      getCookieData: function() {
+        userName = $cookies.get("userName");
+        return userName;
+      },
+      clearCookieData: function() {
+        userName = "";
+        $cookies.remove("userName");
+      }
+    }
+  }
+]);
