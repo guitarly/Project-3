@@ -4,10 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 var config = require('./config/database.js'); // get our config file
-
-
 var morgan = require('morgan');
-// ----
 var session = require('express-session');
 var expressValidator = require('express-validator');
 var cookieParser = require('cookie-parser');
@@ -15,16 +12,22 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var localStrategy = require('passport-local').
 Strategy;
+var expressJWT = require('express-jwt');
 
 
 var port = process.env.PORT || 3001;
-// var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
-var mongoDBURI = config.database;
+var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
+// var mongoDBURI = config.database;
 
 mongoose.connect(mongoDBURI);
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use(expressJWT({
+  secret: config.secret
+}).unless({
+  path: ['/login', '/register']
+}));
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));

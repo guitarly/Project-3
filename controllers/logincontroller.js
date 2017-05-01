@@ -13,9 +13,6 @@ router.post('/', function(req, res) {
       username: req.body.username
     }, function(err, foundUser) {
       if (!foundUser) {
-        // req.flash('error_msg', 'No User Found');
-        // console.log("No User found");
-        // res.json("No user found");
 
         res.json({
           success: false,
@@ -25,19 +22,19 @@ router.post('/', function(req, res) {
       } else {
 
         if (bcrypt.compareSync(req.body.password, foundUser.password, function(err, res) {
+            console.log(err);
             if (err) {
-
               res.json({
                 success: false,
                 message: 'Wrong password.'
               });
             }
           })) {
-          console.log("iam here...in the server - login ok");
-          // passed.. login good
-          // res.json(foundUser);
-          var token = jwt.sign(foundUser, config.secret, {
-            expiresIn: 60 * 60 * 24 // expires in 24 hours
+
+          var token = jwt.sign({
+            username: req.body.username
+          }, config.secret, {
+            expiresIn: '1h'
           });
 
           // return the information including token as JSON
@@ -101,8 +98,6 @@ router.post('/register', function(req, res) {
         req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
         Users.create(req.body, function(err, createdUser) {
           if (err) throw err;
-          // req.flash('success_msg', "You are registered can now login.");
-          // res.json(createdUser);
           res.json({
             user: createdUser,
             success: true,

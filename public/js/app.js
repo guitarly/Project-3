@@ -35,9 +35,6 @@ app.config(function($routeProvider) {
 
 });
 
-
-
-
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
   var vm = this;
@@ -46,15 +43,15 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 
   // Control for login
   this.submit = function() {
+    console.log(this);
     $rootScope.loggedIn = false;
-    console.log("Loginhere...");
     $http({
       method: 'POST',
       url: "/login",
-      data: this
-      // headers: {
-      //   'Authorization': "Bearer" + JSON.parse(localStorage.getItem('token'))
-      // }
+      data: {
+        username: this.username,
+        password: this.password
+      }
     }).then(function(response) {
 
       if (response.data.success === true) {
