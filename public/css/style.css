@@ -1,8 +1,32 @@
 /* Space out content a bit */
 
 body {
+  /*background: red;*/
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.header-section {
+  height: 100%;
+  width: 100%;
+  color: white;
+  background: red;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("http://www.boardingschools.com/images/home/slides3/slide3.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  background-attachment: fixed;
+}
+
+.glyphicon {
+  padding-right: 10px;
+}
+
+.logo-section {
+  /*margin-left: 30%;*/
 }
 
 
