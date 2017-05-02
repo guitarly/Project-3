@@ -29,6 +29,17 @@ app.config(function($routeProvider) {
       controllerAs: 'vm'
 
     })
+    .when('/childs', {
+      controller: 'loginCtr',
+      templateUrl: 'views/childs.html',
+      controllerAs: 'vm'
+    })
+    .when('/childs/:id', {
+        controller: 'loginCtr',
+        templateUrl: 'views/childs.html',
+        controllerAs: 'vm'
+    })
+
     .otherwise({
       redirectTo: '/'
     });
@@ -101,6 +112,37 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $rootScope.loggedIn = false;
   };
 
+  //add a child
+  this.addChild = function(){
+      console.log("I've been clicked");
+      $http({
+          method: 'POST',
+          url: '/childs',
+          data: {
+              firstname: this.firstname,
+              lastname: this.lastname,
+              school: this.school,
+              grade: this.grade
+            }
+
+        });
+    };
+
+    //edit child information
+    this.updateChild = function(){
+        console.log("Update has been clicked...");
+
+    };
+
+
+    this.getChildren = function(){
+        $http({
+            method: 'GET',
+            url:'/childs'
+        }).then(function(response){
+            controller.childs = response.data;
+        });
+    };
 }]);
 
 // Set Control

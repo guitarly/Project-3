@@ -1,0 +1,23 @@
+<div class="col-md-6 col-md-offset-3">
+
+    <div class="container">
+
+        <h2>Child Show/Edit Page</h2>
+
+        <div>
+            <ul ng-repeat = "child in vm.childs">
+                <li>{{vm.child.firstname}}</li>
+                <li>{{lastname}}</li>
+                <li>{{school}}</li>
+                <li>{{grade}}</li>
+            </ul>
+        </div>
+
+    <form ng-submit = "vm.updateChild(child)" ng-if = "vm.editableChildId === child._id" >
+        <input type="text" placeholder="firstname" ng-model = "vm.firstname"><br>
+        <input type="text" placeholder="lastname" ng-model = "vm.lastname"><br>
+        <input type="text" placeholder="school" ng-model = "vm.school"><br>
+        <input type="text" placeholder="grade" ng-model = "vm.grade">
+        <input type="submit" value="Update child">
+    </form>
+</div>
