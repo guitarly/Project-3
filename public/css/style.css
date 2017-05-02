@@ -178,3 +178,9 @@ footer {
   width: 20%;
   height: 30%;
 }
+
+.login-footer {
+  font-size: 20px;
+  color: white;
+  background: #2F7EC2;
+}
