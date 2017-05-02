@@ -105,7 +105,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $http({
       method: 'POST',
       url: "/login/register",
-      data: this
+      data: this,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       console.log("Register success", response);
       if (response.data.success === true) {
@@ -131,6 +134,9 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         cost: this.cost,
         date: this.date
       },
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function() {
       $location.path('/meals/display');
     });
@@ -145,6 +151,9 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         school: this.school,
         grade: this.grade
       },
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function() {
       $location.path('/childs/display');
     });
@@ -154,7 +163,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 
     $http({
       method: 'GET',
-      url: '/meals/'
+      url: '/meals/',
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       console.log(response);
       vm.meals = response.data;
@@ -166,7 +178,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 
     $http({
       method: 'GET',
-      url: '/childs/'
+      url: '/childs/',
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       console.log(response);
       vm.childs = response.data;
@@ -185,7 +200,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $http({
       method: 'PUT',
       url: '/meals/' + meal._id,
-      data: meal
+      data: meal,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       vm.editableMeal = null;
       vm.getMeal();
@@ -195,7 +213,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $http({
       method: 'PUT',
       url: '/childs/' + child._id,
-      data: child
+      data: child,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       vm.editableChild = null;
       vm.getChild();
@@ -205,7 +226,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   this.deleteMeal = function(id) {
     $http({
       method: 'DELETE',
-      url: '/meals/' + id
+      url: '/meals/' + id,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       vm.getMeal();
     });
@@ -214,7 +238,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   this.deleteChild = function(id) {
     $http({
       method: 'DELETE',
-      url: '/childs/' + id
+      url: '/childs/' + id,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
     }).then(function(response) {
       vm.getChild();
     });
