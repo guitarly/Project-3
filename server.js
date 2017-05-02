@@ -26,7 +26,7 @@ app.use(express.static('public'));
 app.use(expressJWT({
   secret: config.secret
 }).unless({
-  path: ['/login', '/register']
+  path: ['/login', '/login/register']
 }));
 
 // use morgan to log requests to the console

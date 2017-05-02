@@ -52,7 +52,8 @@ app.config(function($routeProvider) {
 });
 
 // Set Control
-app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
+// app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
+app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
   var vm = this;
   this.currentUser;
 
@@ -101,6 +102,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   // create user ... from register form
   this.register = function() {
     console.log("Register.. submit");
+    console.log(JSON.parse(localStorage.getItem('token')));
 
     $http({
       method: 'POST',
