@@ -14,6 +14,12 @@ router.post('/', function(req, res){
     });
 });
 
+router.post('/display', function(req, res){
+    Childs.create(req.body, function(err, createdChildren){
+        res.json(createdChildren);
+    });
+});
+
 router.put('/:id', function(req, res){
     Childs.findByIdAndUpdate(req.params.id, req.body, {new:true},
     function(err, updatedChildren){
@@ -22,7 +28,7 @@ router.put('/:id', function(req, res){
 });
 
 router.delete('/:id', function(req, res){
-    Childs.findByIdAndUpdate(req.params.id, function(err, deletedChildren){
+    Childs.findByIdAndRemove(req.params.id, function(err, deletedChildren){
         res.json(deletedChildren);
     });
 });
