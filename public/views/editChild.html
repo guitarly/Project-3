@@ -1,0 +1,21 @@
+
+<ul>
+    <li ng-repeat="child in vm.childs">
+      <h3 ng-click="vm.editChild(child._id)">{{child.firstname}}</h3>
+      <ul ng-if="vm.editableChild !== child._id" >
+      </ul>
+      <br>
+
+
+
+      <form ng-submit="vm.updateChild(child)"
+      ng-if="vm.editableChild == child._id">
+        <label for="">First Name:</label><input type="text" ng-model="child.firstname"><br><br>
+        <label for="">Last Name:</label><input type="text" ng-model="child.lastname"><br>
+        <label for="">School:</label><input type="text" ng-model="child.school"><br>
+          <label for="">Grade:</label><input type="text" ng-model="child.grade"><br>
+        <input type="submit" value="Update">
+        <input ng-click="vm.deleteChild(child._id)" type="submit" value="Delete">
+      </form>
+    </li>
+  </ul>

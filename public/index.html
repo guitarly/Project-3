@@ -4,12 +4,18 @@
 <head>
   <meta charset="utf-8">
 
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js">
-  </script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
+
 
   <title>School Payment</title>
+  <base href="/">
+
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/w3.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js">
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js">
@@ -17,11 +23,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.min.js"></script>
   <script src="js/app.js"></script>
 
-  <base href="/">
+
+
 </head>
 
 <body>
-  <h1>School Payment</h1>
+
+  <div class="header-section">
+    <div ng-include="'views/header.html'"></div>
+  </div>
+
   <main ng-view></main>
 
 </body>

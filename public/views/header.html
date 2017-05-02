@@ -1,0 +1,55 @@
+<div class="container" ng-controller="loginCtr as ctrl">
+
+  <div class="header clearfix">
+    <div class="logo-section">
+      <img src="/images/logo.png" alt="logo" id="logo">
+      <h4>School Payment System</h4>
+
+    </div>
+
+    <nav>
+
+      <ul class="nav nav-pills pull-right">
+
+        <div ng-hide="currentUser">
+          <!-- <li role="presentation">
+            <a href="#!/login"><span class="glyphicon glyphicon-log-out"> </span> Login</a></li> -->
+          <a href="#!/login"><span class="glyphicon glyphicon-log-out"></span> Login</a>
+          <a href="#!/register"><span class="glyphicon glyphicon-modal-window"> </span>Register</a>
+
+
+          <!-- <li role="presentation"><a href="#!/register"><span class="glyphicon glyphicon-modal-window"> </span> Register</a></li> -->
+        </div>
+
+        <div ng-hide="!currentUser">
+          <!-- <li role="presentation"><a href="#!/dashboard"><span class="glyphicon glyphicon-tasks"></span> Dashboard</a></li> -->
+          <!-- <li class="nav-item"> -->
+
+          <a href="#!/dashboard"><span class="glyphicon glyphicon-tasks"></span> Dashboard</a>
+          <a href="#" ng-click="ctrl.logout()"><span class="glyphicon glyphicon-log-out" ></span>Logout</a>
+          <br>
+          <div style="color:blue">
+            Hello, {{currentUser.firstname}} {{currentUser.lastname}}
+          </div>
+
+          <!-- <li role="presentation">
+            <a href="#" ng-click="ctrl.logout()"><span class="glyphicon glyphicon-log-out" ></span> Logout</a>
+          </li> -->
+
+          <!-- <li role="presentation">
+            <a href="#" style="color:blue">
+                      Hello,
+                      {{currentUser.firstname}} {{currentUser.lastname}} <br>
+                      </a>
+          </li> -->
+
+        </div>
+
+
+      </ul>
+    </nav>
+
+
+
+  </div>
+</div>
