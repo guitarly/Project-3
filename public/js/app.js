@@ -61,6 +61,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   this.submit = function() {
     console.log(this);
     $scope.error_msg = null;
+
     // $rootScope.loggedIn = true;
     // $rootScope.loggedIn = false;
     // localStorage.clear('token');
@@ -114,7 +115,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       } else {
         $scope.error_msg = response.data;
       }
-
 
     }, function(error) {
       console.log("Register failure", response);
@@ -210,13 +210,11 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       vm.getMeal();
     });
   };
+
   this.deleteChild = function(id) {
     $http({
       method: 'DELETE',
-      url: '/childs/' + id,
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
+      url: '/childs/' + id
     }).then(function(response) {
       vm.getChild();
     });
@@ -233,7 +231,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     location.reload();
 
   };
-
 
   // Get all user .. testing..
   $scope.getUsers = function() {
@@ -255,14 +252,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     }.bind(this));
   };
 
-
-
-
 }]);
 
 // Set Control
 app.controller('UserController', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', function($http, $scope, $location, $rootScope, $cookies, $window) {
-
 
 
 }]);
@@ -285,6 +278,6 @@ app.factory("userPersistenceService", [
         userName = "";
         $cookies.remove("userName");
       }
-    }
+    };
   }
 ]);
