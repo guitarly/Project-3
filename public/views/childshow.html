@@ -3,21 +3,37 @@
     <div class="container">
 
         <h2>Child Show/Edit Page</h2>
-
         <div>
             <ul ng-repeat = "child in vm.childs">
-                <li>{{vm.child.firstname}}</li>
-                <li>{{lastname}}</li>
-                <li>{{school}}</li>
-                <li>{{grade}}</li>
+                <h3 ng-click = "vm.editChild(child._id)">{{child.name}}</h3>
+                <ul  ng-if = "vm.editableChild == childs._id">
+                    <h3 ng-model = "child.firstname">Child</h3>
+                    <p>{{child.firstname}}</p>
+                    <p>{{child.lastname}}</p>
+                    <p>{{child.school}}</p>
+                    <p>{{child.grade}}</p>
+                </ul>
+
             </ul>
+
         </div>
 
-    <form ng-submit = "vm.updateChild(child)" ng-if = "vm.editableChildId === child._id" >
-        <input type="text" placeholder="firstname" ng-model = "vm.firstname"><br>
-        <input type="text" placeholder="lastname" ng-model = "vm.lastname"><br>
-        <input type="text" placeholder="school" ng-model = "vm.school"><br>
-        <input type="text" placeholder="grade" ng-model = "vm.grade">
-        <input type="submit" value="Update child">
-    </form>
+        <ul>
+            <li ng-repeat="child in vm.childs">
+              <h3 ng-click="vm.editChild(childs._id)"></h3>
+              <br>
+              <ul  ng-if = "vm.editableChild == childs._id">
+                  <h3 ng-model = "child.firstname"></h3>
+                   <input type="text" placeholder="First Name" ng-model = "child.firstname"><br>
+                  <input type="text" placeholder="Last Name" ng-model = "child.lastname"><br>
+                  <input type="text" placeholder="School" ng-model = "child.school"><br>
+                  <input type="text" placeholder="Grade" ng-model = "child.grade"><br>
+              </ul>
+              <form ng-submit="vm.updateChild(child)">
+                <input type="submit" value="Update">
+                <input type="submit" value="Delete" ng-click = "vm.deleteChild(child._id)">
+              </form>
+            </li>
+          </ul>
+
 </div>

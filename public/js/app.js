@@ -36,7 +36,7 @@ app.config(function($routeProvider) {
     })
     .when('/childs/:id', {
         controller: 'loginCtr',
-        templateUrl: 'views/childs.html',
+        templateUrl: 'views/childshow.html',
         controllerAs: 'vm'
     })
 
@@ -79,7 +79,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       $rootScope.loggedIn = false;
       console.log("login failure", response);
     });
-  }
+};
 
 
   // create user ... from register form
@@ -123,26 +123,50 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
               lastname: this.lastname,
               school: this.school,
               grade: this.grade
-            }
+          },
 
+      }).then(function () {
+          $location.path('/childs/display');
+      });
+    };
+
+    //Delete child
+    this.deleteChild = function(id){
+        $http({
+            method:'DELETE',
+            url:'/childs/' + id
+        }).then(function(response){
+            vm.getChildren();
         });
     };
 
     //edit child information
-    this.updateChild = function(){
-        console.log("Update has been clicked...");
-
+    this.editChild = function(id) {
+        this.editableChild = id;
     };
 
+    this.updateChild = function(child){
+
+        $http({
+            method: 'PUT',
+            url:'/childs/' + child._id,
+            data: child
+        }).then(function(response){
+            vm.editableChild = null;
+            vm.getChildren();
+        });
+
+    };
 
     this.getChildren = function(){
         $http({
             method: 'GET',
-            url:'/childs'
+            url:'/childs/'
         }).then(function(response){
-            controller.childs = response.data;
+            vm.childs = response.data;
         });
     };
+    this.getChildren();
 }]);
 
 // Set Control
