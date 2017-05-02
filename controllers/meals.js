@@ -10,6 +10,14 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
   Meals.create(req.body, function(err, createdMeal){
+    console.log(createdMeal);
+    res.json(createdMeal);
+  });
+});
+
+router.post('/display', function(req, res){
+  Meals.create(req.body, function(err, createdMeal){
+    console.log(createdMeal);
     res.json(createdMeal);
   });
 });
