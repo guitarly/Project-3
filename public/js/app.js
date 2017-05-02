@@ -27,12 +27,12 @@ app.config(function($routeProvider) {
       controller: 'loginCtr',
       templateUrl: 'views/register.html',
       controllerAs: 'vm'
-//Added a meals config
+      //Added a meals config
     }).when('/meals', {
       controller: 'loginCtr',
       templateUrl: 'views/addMeals.html',
       controllerAs: 'vm'
-    }).when('/meals/:id',{
+    }).when('/meals/:id', {
       controller: 'loginCtr',
       templateUrl: 'views/editMeal.html',
       controllerAs: 'vm'
@@ -40,7 +40,7 @@ app.config(function($routeProvider) {
       controller: 'loginCtr',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
-    }).when('/childs/:id',{
+    }).when('/childs/:id', {
       controller: 'loginCtr',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
@@ -122,22 +122,22 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   };
 
   //added a meals
-  this.addMeal = function(){
+  this.addMeal = function() {
     $http({
-      method:'POST',
+      method: 'POST',
       url: '/meals/display',
       data: {
         menu: this.menu,
         cost: this.cost,
         date: this.date
       },
-    }).then(function(){
-        $location.path('/meals/display');
+    }).then(function() {
+      $location.path('/meals/display');
     });
   };
-  this.addChild = function(){
+  this.addChild = function() {
     $http({
-      method:'POST',
+      method: 'POST',
       url: '/childs',
       data: {
         firstname: this.firstname,
@@ -145,79 +145,82 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         school: this.school,
         grade: this.grade
       },
-    }).then(function(){
-        $location.path('/childs/display');
+    }).then(function() {
+      $location.path('/childs/display');
     });
   };
 
-this.getMeal = function(){
+  this.getMeal = function() {
 
-  $http({
+    $http({
       method: 'GET',
       url: '/meals/'
-    }).then(function(response){
+    }).then(function(response) {
       console.log(response);
       vm.meals = response.data;
     });
-};
-this.getMeal();
+  };
+  this.getMeal();
 
-this.getChild = function(){
+  this.getChild = function() {
 
-  $http({
+    $http({
       method: 'GET',
       url: '/childs/'
-    }).then(function(response){
+    }).then(function(response) {
       console.log(response);
       vm.childs = response.data;
     });
-};
-this.getChild();
+  };
+  this.getChild();
 
-this.editMeal = function(id){
+  this.editMeal = function(id) {
     this.editableMeal = id;
-};
-this.editChild = function(id){
+  };
+  this.editChild = function(id) {
     this.editableChild = id;
-};
+  };
 
-this.updateMeal = function(meal){
-  $http({
-  method: 'PUT',
-  url: '/meals/' + meal._id,
-  data: meal
-}).then(function(response){
-  vm.editableMeal = null;
-  vm.getMeal();
-});
-};
-this.updateChild = function(child){
-  $http({
-  method: 'PUT',
-  url: '/childs/' + child._id,
-  data: child
-}).then(function(response){
-  vm.editableChild = null;
-  vm.getChild();
-});
-};
+  this.updateMeal = function(meal) {
+    $http({
+      method: 'PUT',
+      url: '/meals/' + meal._id,
+      data: meal
+    }).then(function(response) {
+      vm.editableMeal = null;
+      vm.getMeal();
+    });
+  };
+  this.updateChild = function(child) {
+    $http({
+      method: 'PUT',
+      url: '/childs/' + child._id,
+      data: child
+    }).then(function(response) {
+      vm.editableChild = null;
+      vm.getChild();
+    });
+  };
 
-this.deleteMeal = function(id){
-  $http({
-       method: 'DELETE',
-       url:'/meals/'+id
-     }).then(function(response){
-     vm.getMeal();
-     });
-};
-this.deleteChild = function(id){
-  $http({
-       method: 'DELETE',
-       url:'/childs/'+id
-     }).then(function(response){
-     vm.getChild();
-     });
-};
+  this.deleteMeal = function(id) {
+    $http({
+      method: 'DELETE',
+      url: '/meals/' + id
+    }).then(function(response) {
+      vm.getMeal();
+    });
+  };
+  this.deleteChild = function(id) {
+    $http({
+      method: 'DELETE',
+      url: '/childs/' + id,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      vm.getChild();
+    });
+  };
 
 
   this.logout = function() {
