@@ -44,7 +44,11 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   // Control for login
   this.submit = function() {
     console.log(this);
-    $rootScope.loggedIn = false;
+    $scope.error_msg = null;
+    // $rootScope.loggedIn = true;
+    // $rootScope.loggedIn = false;
+    // localStorage.clear('token');
+    // $rootScope.loggedIn = false;
     $http({
       method: 'POST',
       url: "/login",
@@ -101,6 +105,18 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     });
   };
 
+  this.logout = function() {
+
+    $scope.error_msg = null;
+    // $rootScope.loggedIn = true;
+    $rootScope.loggedIn = false;
+    localStorage.clear('token');
+    // userPersistenceService.clearCookieData('userName');
+    location.reload();
+
+  };
+
+
   // Get all user .. testing..
   $scope.getUsers = function() {
     $http({
@@ -121,13 +137,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     }.bind(this));
   };
 
-  this.logout = function() {
-    console.log("logout");
-    $rootScope.loggedIn = false;
-    localStorage.clear('token');
-    // userPersistenceService.clearCookieData('userName');
-    location.reload();
-  };
+
 
 
 }]);

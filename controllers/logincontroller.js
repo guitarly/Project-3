@@ -109,16 +109,17 @@ router.post('/register', function(req, res) {
     }
 
   });
-  // }
-
-
-
-  //----------
 
 
 });
 
-
+// router.post('/', function(req, res) {
+//   console.log("in server logout");
+//   res.json({
+//     success: true,
+//     message: 'Logout Success'
+//   });
+// });
 
 
 module.exports = router;
