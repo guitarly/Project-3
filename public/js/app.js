@@ -27,7 +27,23 @@ app.config(function($routeProvider) {
       controller: 'loginCtr',
       templateUrl: 'views/register.html',
       controllerAs: 'vm'
-
+//Added a meals config
+    }).when('/meals', {
+      controller: 'loginCtr',
+      templateUrl: 'views/addMeals.html',
+      controllerAs: 'vm'
+    }).when('/meals/:id',{
+      controller: 'loginCtr',
+      templateUrl: 'views/editMeal.html',
+      controllerAs: 'vm'
+    }).when('/childs', {
+      controller: 'loginCtr',
+      templateUrl: 'views/addChild.html',
+      controllerAs: 'vm'
+    }).when('/childs/:id',{
+      controller: 'loginCtr',
+      templateUrl: 'views/editChild.html',
+      controllerAs: 'vm'
     })
     .otherwise({
       redirectTo: '/'
@@ -78,7 +94,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       $rootScope.loggedIn = false;
       console.log("login failure", response);
     });
-  }
+  };
 
 
   // create user ... from register form
@@ -104,6 +120,105 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       console.log("Register failure", response);
     });
   };
+
+  //added a meals
+  this.addMeal = function(){
+    $http({
+      method:'POST',
+      url: '/meals/display',
+      data: {
+        menu: this.menu,
+        cost: this.cost,
+        date: this.date
+      },
+    }).then(function(){
+        $location.path('/meals/display');
+    });
+  };
+  this.addChild = function(){
+    $http({
+      method:'POST',
+      url: '/childs',
+      data: {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        school: this.school,
+        grade: this.grade
+      },
+    }).then(function(){
+        $location.path('/childs/display');
+    });
+  };
+
+this.getMeal = function(){
+
+  $http({
+      method: 'GET',
+      url: '/meals/'
+    }).then(function(response){
+      console.log(response);
+      vm.meals = response.data;
+    });
+};
+this.getMeal();
+
+this.getChild = function(){
+
+  $http({
+      method: 'GET',
+      url: '/childs/'
+    }).then(function(response){
+      console.log(response);
+      vm.childs = response.data;
+    });
+};
+this.getChild();
+
+this.editMeal = function(id){
+    this.editableMeal = id;
+};
+this.editChild = function(id){
+    this.editableChild = id;
+};
+
+this.updateMeal = function(meal){
+  $http({
+  method: 'PUT',
+  url: '/meals/' + meal._id,
+  data: meal
+}).then(function(response){
+  vm.editableMeal = null;
+  vm.getMeal();
+});
+};
+this.updateChild = function(child){
+  $http({
+  method: 'PUT',
+  url: '/childs/' + child._id,
+  data: child
+}).then(function(response){
+  vm.editableChild = null;
+  vm.getChild();
+});
+};
+
+this.deleteMeal = function(id){
+  $http({
+       method: 'DELETE',
+       url:'/meals/'+id
+     }).then(function(response){
+     vm.getMeal();
+     });
+};
+this.deleteChild = function(id){
+  $http({
+       method: 'DELETE',
+       url:'/childs/'+id
+     }).then(function(response){
+     vm.getChild();
+     });
+};
+
 
   this.logout = function() {
 
