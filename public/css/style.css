@@ -178,3 +178,45 @@ footer {
   width: 20%;
   height: 30%;
 }
+
+.login-footer {
+  /*height: 100px;
+  margin-bottom: 0;*/
+  /*padding-top: 50px;*/
+  font-size: 14px;
+  color: white;
+  background: #2F7EC2;
+  display: block;
+  margin-bottom: 0;
+  margin-top: 1%;
+}
+
+.custom-fa-icon1, .custom-fa-icon2, .custom-fa-icon3 {
+  width: 60px;
+  height: 90px;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 13px;
+  margin-right: 15px;
+  float: left;
+}
+
+.custom-steps3blue .custom-fa-icon1 img {
+  width: 64px;
+  height: 54px;
+  padding-right: 5px;
+}
+
+.custom-steps3blue .custom-fa-icon2 img {
+  width: 48px;
+  height: 60px;
+}
+
+.custom-steps3blue .custom-fa-icon3 img {
+  width: 40px;
+  height: 60px;
+}
+
+.login-page {
+  padding-top: 5%;
+}
