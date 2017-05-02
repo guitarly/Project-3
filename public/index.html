@@ -9,10 +9,11 @@
   <title>School Payment</title>
   <base href="/">
 
-  <link rel="stylesheet" href="css/style.css">
+
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/w3.css">
+  <link rel="stylesheet" href="./css/w3.css">
+  <link rel="stylesheet" href="./css/style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js">
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">
@@ -28,8 +29,10 @@
 
 <body>
 
+  <div class="header-section">
+    <div ng-include="'views/header.html'"></div>
+  </div>
 
-  <div ng-include="'views/header.html'"></div>
   <main ng-view></main>
 
 </body>
