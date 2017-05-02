@@ -45,6 +45,17 @@ app.config(function($routeProvider) {
         templateUrl: 'views/editChild.html',
         controllerAs: 'vm'
     })
+    .when('/childs', {
+      controller: 'loginCtr',
+      templateUrl: 'views/childs.html',
+      controllerAs: 'vm'
+    })
+    .when('/childs/:id', {
+        controller: 'loginCtr',
+        templateUrl: 'views/childshow.html',
+        controllerAs: 'vm'
+    })
+
     .otherwise({
         redirectTo: '/'
     });
@@ -61,6 +72,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     this.submit = function() {
         console.log(this);
         $scope.error_msg = null;
+
         // $rootScope.loggedIn = true;
         // $rootScope.loggedIn = false;
         // localStorage.clear('token');
@@ -114,7 +126,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
             } else {
                 $scope.error_msg = response.data;
             }
-
 
         }, function(error) {
             console.log("Register failure", response);
@@ -251,6 +262,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
             }
         }.bind(this));
     };
+
 
 
 }]);

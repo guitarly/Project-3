@@ -4,7 +4,7 @@ var childsSchema = mongoose.Schema({
   firstname: String,
   lastname: String,
   school: String,
-  grade: String,
+  grade: Number,
   funds: Number,
   meals: []
 
