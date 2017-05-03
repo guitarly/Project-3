@@ -5,6 +5,7 @@ var Users = require('../models/users.js');
 
 
 router.get('/', function(req, res) {
+  console.log("in User");
   Users.find({}, function(err, foundUsers) {
     res.json(foundUsers);
   })
