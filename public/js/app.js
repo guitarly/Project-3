@@ -39,7 +39,7 @@ app.config(function($routeProvider) {
       templateUrl: 'views/editMeal.html',
       controllerAs: 'vm'
     })
-    .when('/childs', {
+    .when('/childs/add', {
       controller: 'userController',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
@@ -77,12 +77,13 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         password: this.password
       }
     }).then(function(response) {
-
+      console.log(response);
       if (response.data.success === true) {
 
         $scope.error_msg = null;
         $rootScope.loggedIn = true;
         $rootScope.currentUser = response.data.user;
+        $rootScope.children = response.data.children;
 
         localStorage.setItem('token', JSON.stringify(response.data.token));
 
@@ -159,21 +160,27 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 app.controller('userController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
   var vm = this;
 
-  this.addChild = function() {
+
+
+  this.saveChild = function(parentid) {
+
     $http({
       method: 'POST',
-      url: '/childs',
+      url: '/childs/add',
       data: {
+        parentid: parentid,
         firstname: this.firstname,
         lastname: this.lastname,
         school: this.school,
-        grade: this.grade
+        grade: this.grade,
+        funds: this.funds
       },
       headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
-    }).then(function() {
-      $location.path('/childs/display');
+    }).then(function(response) {
+      console.log(response.data);
+      $location.path('/dashboard');
     });
   };
 

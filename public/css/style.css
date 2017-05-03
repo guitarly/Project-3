@@ -360,3 +360,13 @@ footer {
   margin-top: 1em;
   text-align: center !important;
 }
+
+.btn-makeamealpayment:hover, .btn-makeamealpayment:focus, .btn-makeamealpayment:active {
+  background: #66CC66;
+}
+
+.list-balances .payment-options .payment-options-well.well-blue {
+  color: #ffffff !important;
+  background-color: #2f7ec2;
+  border: 1px solid #ffffff;
+}

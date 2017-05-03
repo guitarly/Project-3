@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../models/users.js');
 var Childs = require('../models/childs.js');
 
 router.get('/', function(req, res) {
@@ -9,11 +10,20 @@ router.get('/', function(req, res) {
   });
 });
 
-router.post('/', function(req, res) {
-  Childs.create(req.body, function(err, createdChildren) {
-    res.json(createdChildren);
+// Add new child
+router.post('/add', function(req, res) {
+  console.log(req.body);
+  User.findById(req.body.parentid, function(err, foundUser) {
+    Childs.create(req.body, function(err, createdChild) {
+      foundUser.child.push(createdChild);
+      foundUser.save(function(err, data) {
+        res.json(createdChild);
+      });
+    });
   });
 });
+
+
 
 router.post('/display', function(req, res) {
   Childs.create(req.body, function(err, createdChildren) {

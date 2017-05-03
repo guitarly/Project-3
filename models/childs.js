@@ -1,12 +1,14 @@
 var mongoose = require('mongoose');
+var Meals = require('./meals.js');
 
 var childsSchema = mongoose.Schema({
+  parentid: String,
   firstname: String,
   lastname: String,
   school: String,
   grade: Number,
   funds: Number,
-  meals: []
+  meals: [Meals.schema]
 
 });
 
