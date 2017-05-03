@@ -1,11 +1,12 @@
 var app = angular.module('School-App', ['ngRoute', 'ngCookies']);
 
 app.config(function($routeProvider) {
+
   $routeProvider
     .when('/', {
-
       controller: 'loginCtr',
       templateUrl: 'views/login.html',
+      reloadOnSearch: false,
       controllerAs: 'vm'
     })
     .when('/dashboard', {
@@ -47,8 +48,18 @@ app.config(function($routeProvider) {
       controller: 'userController',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
+    }).when('/childs/funds', {
+      controller: 'userController',
+      templateUrl: 'views/funds.html',
+      controllerAs: 'vm'
+    })
+    .when('/childs/getOneChild', {
+      controller: 'userController',
+      templateUrl: 'views/mealhistory.html',
+      controllerAs: 'vm'
     })
     .otherwise({
+
       redirectTo: '/'
     });
 
@@ -67,7 +78,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $rootScope.loggedIn = false;
     localStorage.clear('token');
     userPersistenceService.clearCookieData('userName');
-    // location.reload();
+    console.log("iam in login ");
 
     $http({
       method: 'POST',
@@ -157,10 +168,8 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 }]);
 
 // Set User Control
-app.controller('userController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
+app.controller('userController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
   var vm = this;
-
-
 
   this.saveChild = function(parentid) {
 
@@ -183,6 +192,35 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
       $rootScope.children = response.data;
       $location.path('/dashboard');
     });
+  };
+
+  $scope.getChildren = function(parentid) {
+    $http({
+      method: 'GET',
+      url: '/childs/getAll/',
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response);
+      vm.childs = response.data;
+    });
+
+  };
+
+  this.getOneChild = function(childId) {
+    console.log("ChildId", childId);
+    $http({
+      method: 'GET',
+      url: '/childs/getOneChild/' + childId,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log("what", response);
+      vm.childs = response.data;
+    });
+
   };
 
   this.getChild = function() {
@@ -232,8 +270,11 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
 }]);
 
 // Set Meals Control
-app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
+app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
   var vm = this;
+
+
+
   //added a meals
   this.addMeal = function() {
     $http({
