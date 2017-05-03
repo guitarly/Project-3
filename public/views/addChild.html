@@ -1,20 +1,22 @@
 
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <h1>Add Child</h1>
+<div id="mealAccounts" class="row list-balances clearfix" role="main">
+    <div class="header-row clearfix col-md-10 col-md-offset-1">
+        <h1>Add Child</h1>
+    </div>
+        <div class="header-row clearfix col-md-10 col-md-offset-1">
+
             <form ng-submit="vm.saveChild(currentUser._id)">
-                <div class="form-group">
+                <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                     <label for="">First Name</label>
                     <input class="form-control"  type="text" ng-model="vm.firstname"required=""><br>
                 </div>
-                <div class="form-group">
+                <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                     <label for="">Last Name</label>
                     <input class="form-control"  type="text" ng-model="vm.lastname"required=""><br>
                 </div>
-                <div class="form-group">
+                <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                     <label for="school">School</label>
                     <select class="form-control" name="School" ng-model="vm.school" required="">
                         <option>Level Creek Elementary</option>
@@ -23,19 +25,20 @@
                     </select>
                     <!-- <input class="form-control"  type="text" ng-model="vm.school"><br> -->
                 </div>
-                <div class="form-group">
+                <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                     <label for="lastname">Grade</label>
                     <input class="form-control"  type="text" ng-model="vm.grade"required=""><br>
                 </div>
-                <div class="form-group">
+                <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                     <label for="">Funds</label>
                     <input class="form-control"  type="text" ng-model="vm.funds"><br>
                 </div>
-                <div class="form-group">
+                <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                     <input type="text" ng-model="vm.parentid" value="currentUser._id" hidden>
                     <input class="btn btn-default"  type="submit" value="Add Child"><br>
                 </div>
             </form>
         </div>
 
-    </div>
+
+</div>
