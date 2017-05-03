@@ -41,21 +41,21 @@ app.config(function($routeProvider) {
       controllerAs: 'vm'
     })
     .when('/childs/add', {
-      controller: 'userController',
+      controller: 'childController',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
     }).when('/childs/:id', {
-      controller: 'userController',
+      controller: 'childController',
       templateUrl: 'views/editChild.html',
-      controllerAs: 'vm'
-    }).when('/childs/funds', {
-      controller: 'userController',
-      templateUrl: 'views/funds.html',
       controllerAs: 'vm'
     })
     .when('/childs/getOneChild', {
-      controller: 'userController',
+      controller: 'childController',
       templateUrl: 'views/mealhistory.html',
+      controllerAs: 'vm'
+    }).when('/users/funds', {
+      controller: 'userController',
+      templateUrl: 'views/funds.html',
       controllerAs: 'vm'
     })
     .otherwise({
@@ -64,12 +64,6 @@ app.config(function($routeProvider) {
     });
 
 });
-
-
-
-
-
-
 
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
@@ -149,6 +143,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 
   };
 
+
   // Get all user .. testing..
   $scope.getUsers = function() {
     $http({
@@ -171,8 +166,9 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   };
 }]);
 
+
 // Set User Control
-app.controller('userController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
+app.controller('childController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
   var vm = this;
 
   this.saveChild = function(parentid) {
@@ -213,7 +209,6 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
   };
 
   this.getOneChild = function(childId) {
-    console.log("ChildId", childId);
     $http({
       method: 'GET',
       url: '/childs/getOneChild/' + childId,
@@ -270,6 +265,8 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
       vm.getChild();
     });
   };
+
+
 
 }]);
 
@@ -346,6 +343,32 @@ app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', 
       vm.getMeal();
     });
   };
+
+
+}]);
+
+// Set UserCont Control
+app.controller('userController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
+  var vm = this;
+
+  // get the parent with chidren (student) .. go to fund page to fund them.
+  this.fundStudent = function(parentId) {
+    console.log(parentId);
+    $http({
+      method: 'GET',
+      url: '/users/getParent/' + parentId,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response.data);
+      vm.children = response.data;
+      $location.path('/users/funds');
+
+    });
+
+  };
+
 
 
 }]);
