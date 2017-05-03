@@ -17,7 +17,15 @@ router.post('/add', function(req, res) {
     Childs.create(req.body, function(err, createdChild) {
       foundUser.child.push(createdChild);
       foundUser.save(function(err, data) {
-        res.json(createdChild);
+        // find all children under this parent.
+        Childs.find({
+          parentid: req.body.parentid
+        }, function(err, foundChildren) {
+
+          // return the information including token as JSON
+          res.json(foundChildren);
+
+        });
       });
     });
   });

@@ -180,6 +180,7 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
       }
     }).then(function(response) {
       console.log(response.data);
+      $rootScope.children = response.data;
       $location.path('/dashboard');
     });
   };
