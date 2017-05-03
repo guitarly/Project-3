@@ -294,13 +294,6 @@ footer {
   border: 1px solid #e3e3e3;
 }
 
-.list-balances .payment-options .center-div {
-  display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
-  float: none;
-}
-
 .list-balances .payment-options {
   margin-top: 2em;
   margin-bottom: 2em;
@@ -342,6 +335,7 @@ footer {
 
 .list-balances .payment-options .payment-options-well .btn-default {
   color: #ffffff !important;
+  /*background: lightgreen;*/
 }
 
 .list-balances .payment-options .payment-options-well.well-blue {
@@ -365,8 +359,64 @@ footer {
   background: #66CC66;
 }
 
-.list-balances .payment-options .payment-options-well.well-blue {
-  color: #ffffff !important;
-  background-color: #2f7ec2;
-  border: 1px solid #ffffff;
+.paymentsetup .payment-options {
+  clear: both;
+  float: right;
+}
+
+.paymentsetup .payment-options .payment-options-row {
+  clear: both;
+  float: right;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+.paymentsetup .payment-options .payment-options-row .onoffswitch-main-label {
+  float: left;
+  padding-right: 10px;
+  line-height: 34px;
+}
+
+.paymentsetup .payment-options .payment-options-row .onoffswitch {
+  float: left;
+}
+
+.ordersetup .payment-options {
+  clear: both;
+  float: right;
+}
+
+.ordersetup .payment-options .payment-options-row {
+  clear: both;
+  float: right;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+.payment-options-well-center {
+  float: right;
+}
+
+.list-balances .payment-options .options-title {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: large;
+  font-family: inherit;
+  text-align: center;
+  margin: 0;
+}
+
+.list-balances .payment-options .options-msg {
+  font-weight: normal;
+  font-size: medium;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.list-balances .list-row a {
+  color: #555;
+}
+
+.list-balances .list-row a:hover {
+  color: #fd8a33;
 }
