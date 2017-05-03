@@ -11,14 +11,14 @@ router.get('/', function(req, res) {
 });
 
 
-router.post('/', function(req, res){
-  Meals.create(req.body, function(err, createdMeal){
+router.post('/', function(req, res) {
+  Meals.create(req.body, function(err, createdMeal) {
     res.json(createdMeal);
   });
 });
 
-router.post('/display', function(req, res){
-  Meals.find({}, function(err, foundMeal){
+router.post('/display', function(req, res) {
+  Meals.find({}, function(err, foundMeal) {
     res.json(createdMeal);
   });
 });
