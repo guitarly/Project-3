@@ -1,9 +1,11 @@
-<h1>Add Child</h1>
+<h1>Add Child</h1> {{currentUser._id}}
+<form ng-submit="vm.saveChild(currentUser._id)">
+  <label for="">First Name:</label><input type="text" ng-model="vm.firstname"><br>
+  <label for="">Last Name:</label><input type="text" ng-model="vm.lastname"><br>
+  <label for="">School:</label><input type="text" ng-model="vm.school"><br>
+  <label for="">Grade:</label><input type="text" ng-model="vm.grade"><br>
+  <label for="">Funds:</label><input type="text" ng-model="vm.funds"><br>
 
-  <form class="" ng-submit="vm.addChild()">
-    <label for="">First Name:</label><input type="text" ng-model="vm.firstname"><br>
-    <label for="">Last Name:</label><input type="text" ng-model="vm.lastname"><br>
-    <label for="">School:</label><input type="text" ng-model="vm.school"><br>
-    <label for="">Grade:</label><input type="text" ng-model="vm.grade"><br>
-    <input type="submit" name="" value="Add Child"><br>
-  </form>
+  <input type="text" ng-model="vm.parentid" value="currentUser._id" hidden>
+  <input type="submit" name="" value="Add Child"><br>
+</form>

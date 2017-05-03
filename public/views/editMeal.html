@@ -1,14 +1,12 @@
 
-<ul>
-    <li ng-repeat="meal in vm.meals">
+
+<!-- <ul> -->
+    <!-- <li ng-repeat="meal in vm.meals">
       <h3 ng-click="vm.editMeal(meal._id)">{{meal.menu}}</h3>
       <ul ng-if="vm.editableMeal !== meal._id" >
       </ul>
-      <br>
-
-
-
-      <form ng-submit="vm.updateMeal(meal)"
+      <br> -->
+      <!-- <form ng-submit="vm.updateMeal(meal)"
       ng-if="vm.editableMeal == meal._id">
         <label>Menu:</label><br>
         <input type="text" placeholder="Menu" ng-model="meal.menu"><br>
@@ -18,9 +16,56 @@
           <option value="$.40">$.40</option>
         </select><br>
         <label>Date:</label><br>
-        <input type="text" placeholder="Date" ng-model="meal.date"><br>
+        <input type="text" placeholder="Date" ng-model="meal.date |date:fullDate"><br>
         <input type="submit" value="Update">
         <input ng-click="vm.deleteMeal(meal._id)" type="submit" value="Delete">
       </form>
     </li>
-  </ul>
+  </ul> -->
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table table-striped table-hover table-responsive ">
+        <tr class="active">
+          <th>Date</th>
+          <th>Menu</th>
+          <th>Cost</th>
+          <th>Buy</th>
+        </tr>
+        <tr ng-repeat="meal in vm.meals"  class="active" >
+          <td >{{meal.date | date:'fullDate'}}</td>
+          <td>{{meal.menu}}</td>
+          <td>{{meal.cost}}</td>
+          <td><input class="btn btn-success"type="submit" name="" value="Pay"></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<ul>
+  <li ng-repeat="meal in vm.meals">
+    <h3 ng-click="vm.editMeal(meal._id)">{{meal.menu}}</h3>
+    <ul ng-if="vm.editableMeal !== meal._id">
+    </ul>
+    <br>
+
+
+
+    <form ng-submit="vm.updateMeal(meal)" ng-if="vm.editableMeal == meal._id">
+      <label>Menu:</label><br>
+      <input type="text" placeholder="Menu" ng-model="meal.menu"><br>
+      <label>Cost:</label><br>
+      <select ng-model="meal.cost">
+          <option value="$2.50">$2.50</option>
+          <option value="$.40">$.40</option>
+        </select><br>
+      <label>Date:</label><br>
+      <md-datepicker ng-model="vm.myDate" md-placeholder="Enter date" disabled=""></md-datepicker>
+      <input type="text" placeholder="Date" ng-model="meal.date"><br>
+      <input type="submit" value="Update">
+      <input ng-click="vm.deleteMeal(meal._id)" type="submit" value="Delete">
+    </form>
+  </li>
+</ul>

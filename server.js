@@ -16,8 +16,8 @@ var expressJWT = require('express-jwt');
 
 
 var port = process.env.PORT || 3001;
-var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
-// var mongoDBURI = config.database;
+// var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
+var mongoDBURI = config.database;
 
 mongoose.connect(mongoDBURI);
 
@@ -26,7 +26,7 @@ app.use(express.static('public'));
 app.use(expressJWT({
   secret: config.secret
 }).unless({
-  path: ['/login', '/register']
+  path: ['/login', '/login/register']
 }));
 
 // use morgan to log requests to the console
@@ -69,13 +69,15 @@ app.use(function(req, res, next) {
 
   next();
 });
+var loginController = require('./controllers/logincontroller.js');
+app.use('/login', loginController);
 
 var usersController = require('./controllers/users.js');
 app.use('/users', usersController);
-var loginController = require('./controllers/logincontroller.js');
-app.use('/login', loginController);
+
 var childsController = require('./controllers/childs.js');
 app.use('/childs', childsController);
+
 var mealsController = require('./controllers/meals.js');
 app.use('/meals', mealsController);
 
