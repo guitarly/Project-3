@@ -14,15 +14,15 @@
         <div ng-hide="currentUser">
           <!-- <li role="presentation">
             <a href="#!/login"><span class="glyphicon glyphicon-log-out"> </span> Login</a></li> -->
-          <a href="#!/login"><span class="glyphicon glyphicon-log-out"></span> Login</a>
-          <a href="#!/register"><span class="glyphicon glyphicon-modal-window"> </span>Register</a>
+          <a href="#!/login" style="color: white"><span class="glyphicon glyphicon-log-out"></span>Login</a>
+          <a href="#!/register" style="color: white"><span class="glyphicon glyphicon-modal-window"> </span>Register</a>
 
         </div>
 
         <div ng-hide="!currentUser">
 
-          <a href="#!/dashboard"><span class="glyphicon glyphicon-tasks"></span> Dashboard</a>
-          <a href="#" ng-click="ctrl.logout()"><span class="glyphicon glyphicon-log-out" ></span>Logout</a>
+          <a href="#!/dashboard" style="color: white"><span class="glyphicon glyphicon-tasks" ></span> Dashboard</a>
+          <a href="" ng-click="ctrl.logout()" style="color: white"><span class="glyphicon glyphicon-log-out" ></span>Logout</a>
           <br>
           <div style="color: yellow">
             Login as: {{currentUser.firstname}} {{currentUser.lastname}}

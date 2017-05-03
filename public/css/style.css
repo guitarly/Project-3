@@ -468,6 +468,10 @@ footer {
   background-color: #337ab7;
 }
 
+.table-responsive {
+  width: 60%;
+}
+
 
 /*Menu Dropdown*/
 
