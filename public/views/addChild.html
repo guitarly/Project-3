@@ -1,3 +1,23 @@
+
+
+<h1>Add Child</h1>
+<div class="container">
+    <form name="form" class="form-horizontal" ng-submit="vm.addChild()">
+        <div class="form-group row">
+            <label for="firstname" class="col-sm-2 col-form-label">First Name: </label>
+            <input class="form-control"  type="text" ng-model="vm.firstname"><br>
+            <label for="">Last Name: </label>
+            <input class="form-control"type="text" ng-model="vm.lastname"><br>
+            <label for="">School: </label>
+            <input class="form-control"type="text" ng-model="vm.school"><br>
+            <label for="">Grade: </label>
+            <input class="form-control"type="text" ng-model="vm.grade"><br>
+        <input class="form-control"type="submit" name="" value="Add Child"><br>
+        </div>
+
+    </form>
+</div>
+
 <h1>Add Child</h1> {{currentUser._id}}
 <form ng-submit="vm.saveChild(currentUser._id)">
   <label for="">First Name:</label><input type="text" ng-model="vm.firstname"><br>
