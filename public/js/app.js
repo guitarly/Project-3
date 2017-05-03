@@ -130,7 +130,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   this.addMeal = function() {
     $http({
       method: 'POST',
-      url: '/meals/display',
+      url: '/meals',
       data: {
         menu: this.menu,
         cost: this.cost,
@@ -139,7 +139,8 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
-    }).then(function() {
+    }).then(function(response) {
+      vm.meals = response.data;
       $location.path('/meals/display');
     });
   };
