@@ -15,9 +15,7 @@ app.config(function($routeProvider) {
             $location.path('/');
           }
         }
-
       },
-
       templateUrl: 'views/dashboard.html',
       controller: 'loginCtr',
       controllerAs: 'vm'
@@ -29,19 +27,24 @@ app.config(function($routeProvider) {
       controllerAs: 'vm'
       //Added a meals config
     }).when('/meals', {
-      controller: 'loginCtr',
+      controller: 'mealController',
       templateUrl: 'views/addMeals.html',
       controllerAs: 'vm'
     }).when('/meals/:id', {
-      controller: 'loginCtr',
+      controller: 'mealController',
       templateUrl: 'views/editMeal.html',
       controllerAs: 'vm'
-    }).when('/childs', {
-      controller: 'loginCtr',
+    }).when('/meals/display', {
+      controller: 'mealController',
+      templateUrl: 'views/editMeal.html',
+      controllerAs: 'vm'
+    })
+    .when('/childs', {
+      controller: 'userController',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
     }).when('/childs/:id', {
-      controller: 'loginCtr',
+      controller: 'userController',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
     })
@@ -52,21 +55,20 @@ app.config(function($routeProvider) {
 });
 
 // Set Control
-// app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
-app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
+app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
+  // app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
   var vm = this;
   this.currentUser;
 
-
   // Control for login
   this.submit = function() {
-    console.log(this);
-    $scope.error_msg = null;
 
-    // $rootScope.loggedIn = true;
-    // $rootScope.loggedIn = false;
-    // localStorage.clear('token');
-    // $rootScope.loggedIn = false;
+    $scope.error_msg = null;
+    $rootScope.loggedIn = false;
+    localStorage.clear('token');
+    userPersistenceService.clearCookieData('userName');
+    // location.reload();
+
     $http({
       method: 'POST',
       url: "/login",
@@ -83,9 +85,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         $rootScope.currentUser = response.data.user;
 
         localStorage.setItem('token', JSON.stringify(response.data.token));
-        // userPersistenceService.setCookieData(response.data.token);
-        // $cookies.put("userName", response.data.token);
-        // $window.sessionStorage.setItem('token', JSON.stringify(response.data.token));
+
+        console.log("getLocalStorage = ", localStorage.getItem('token'));
+        userPersistenceService.setCookieData(response.data.token);
+        $window.sessionStorage.setItem('token', JSON.stringify(response.data.token));
 
         $location.path('/dashboard');
       } else {
@@ -94,16 +97,12 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       }
     }, function(error) {
       $rootScope.loggedIn = false;
-      console.log("login failure", response);
+      console.log("login failure");
     });
   };
 
-
   // create user ... from register form
   this.register = function() {
-    console.log("Register.. submit");
-    console.log(JSON.parse(localStorage.getItem('token')));
-
     $http({
       method: 'POST',
       url: "/login/register",
@@ -126,137 +125,10 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     });
   };
 
-  //added a meals
-  this.addMeal = function() {
-    $http({
-      method: 'POST',
-      url: '/meals/display',
-      data: {
-        menu: this.menu,
-        cost: this.cost,
-        date: this.date
-      },
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function() {
-      $location.path('/meals/display');
-    });
-  };
-  this.addChild = function() {
-    $http({
-      method: 'POST',
-      url: '/childs',
-      data: {
-        firstname: this.firstname,
-        lastname: this.lastname,
-        school: this.school,
-        grade: this.grade
-      },
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function() {
-      $location.path('/childs/display');
-    });
-  };
-
-  this.getMeal = function() {
-
-    $http({
-      method: 'GET',
-      url: '/meals/',
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function(response) {
-      console.log(response);
-      vm.meals = response.data;
-    });
-  };
-  this.getMeal();
-
-  this.getChild = function() {
-
-    $http({
-      method: 'GET',
-      url: '/childs/',
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function(response) {
-      console.log(response);
-      vm.childs = response.data;
-    });
-  };
-  this.getChild();
-
-  this.editMeal = function(id) {
-    this.editableMeal = id;
-  };
-  this.editChild = function(id) {
-    this.editableChild = id;
-  };
-
-  this.updateMeal = function(meal) {
-    $http({
-      method: 'PUT',
-      url: '/meals/' + meal._id,
-      data: meal,
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function(response) {
-      vm.editableMeal = null;
-      vm.getMeal();
-    });
-  };
-  this.updateChild = function(child) {
-    $http({
-      method: 'PUT',
-      url: '/childs/' + child._id,
-      data: child,
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function(response) {
-      vm.editableChild = null;
-      vm.getChild();
-    });
-  };
-
-  this.deleteMeal = function(id) {
-    $http({
-      method: 'DELETE',
-      url: '/meals/' + id,
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function(response) {
-      vm.getMeal();
-    });
-  };
-
-  this.deleteChild = function(id) {
-    $http({
-      method: 'DELETE',
-      url: '/childs/' + id,
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-      }
-    }).then(function(response) {
-      vm.getChild();
-    });
-  };
-
-
   this.logout = function() {
-
     $scope.error_msg = null;
-    // $rootScope.loggedIn = true;
-    $rootScope.loggedIn = false;
     localStorage.clear('token');
-    // userPersistenceService.clearCookieData('userName');
+    userPersistenceService.clearCookieData('userName');
     location.reload();
 
   };
@@ -283,8 +155,144 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 
 }]);
 
-// Set Control
-app.controller('UserController', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', function($http, $scope, $location, $rootScope, $cookies, $window) {
+// Set User Control
+app.controller('userController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
+  var vm = this;
+
+  this.addChild = function() {
+    $http({
+      method: 'POST',
+      url: '/childs',
+      data: {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        school: this.school,
+        grade: this.grade
+      },
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function() {
+      $location.path('/childs/display');
+    });
+  };
+
+  this.getChild = function() {
+    $http({
+      method: 'GET',
+      url: '/childs',
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response);
+      vm.childs = response.data;
+    });
+  };
+  // this.getChild();
+  this.editChild = function(id) {
+    this.editableChild = id;
+  };
+
+  this.updateChild = function(child) {
+    $http({
+      method: 'PUT',
+      url: '/childs/' + child._id,
+      data: child,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      vm.editableChild = null;
+      vm.getChild();
+    });
+  };
+
+
+  this.deleteChild = function(id) {
+    $http({
+      method: 'DELETE',
+      url: '/childs/' + id,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      vm.getChild();
+    });
+  };
+
+}]);
+
+// Set Meals Control
+app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
+  var vm = this;
+  //added a meals
+  this.addMeal = function() {
+    $http({
+      method: 'POST',
+      url: '/meals',
+      data: {
+        menu: this.menu,
+        cost: this.cost,
+        date: this.date
+      },
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response.data);
+      vm.meals = response.data;
+      $location.path('/meals/display');
+    });
+  };
+
+  this.getMeal = function() {
+
+    $http({
+      method: 'GET',
+      url: '/meals',
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response);
+      vm.meals = response.data;
+    });
+  };
+  // this.getMeal();
+
+
+  this.editMeal = function(id) {
+    this.editableMeal = id;
+  };
+
+
+  this.updateMeal = function(meal) {
+    $http({
+      method: 'PUT',
+      url: '/meals/' + meal._id,
+      data: meal,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      vm.editableMeal = null;
+      vm.getMeal();
+    });
+  };
+
+
+  this.deleteMeal = function(id) {
+    $http({
+      method: 'DELETE',
+      url: '/meals/' + id,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      vm.getMeal();
+    });
+  };
 
 
 }]);

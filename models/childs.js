@@ -10,6 +10,6 @@ var childsSchema = mongoose.Schema({
 
 });
 
-var Childs = mongoose.model('Child', childsSchema);
+var Childs = mongoose.model('Childs', childsSchema);
 
 module.exports = Childs;

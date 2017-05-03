@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('../config/database.js'); // get our config file
 
 router.post('/', function(req, res) {
-
+  console.log("login ");
   if (req.body.password) {
     Users.findOne({
       username: req.body.username
@@ -36,6 +36,8 @@ router.post('/', function(req, res) {
           }, config.secret, {
             expiresIn: '1h'
           });
+
+          console.log(token);
 
           // return the information including token as JSON
           res.json({
