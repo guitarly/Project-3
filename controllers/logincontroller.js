@@ -2,12 +2,14 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 var Users = require('../models/users.js');
+var Childs = require('../models/childs.js');
 var path = require('path');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('../config/database.js'); // get our config file
 
 router.post('/', function(req, res) {
 
+  var currentUserId = null;
   if (req.body.password) {
     Users.findOne({
       username: req.body.username
@@ -21,8 +23,9 @@ router.post('/', function(req, res) {
 
       } else {
 
+        currentUserId = foundUser.id;
+
         if (bcrypt.compareSync(req.body.password, foundUser.password, function(err, res) {
-            console.log(err);
             if (err) {
               res.json({
                 success: false,
@@ -37,12 +40,30 @@ router.post('/', function(req, res) {
             expiresIn: '1h'
           });
 
-          // return the information including token as JSON
-          res.json({
-            user: foundUser,
-            success: true,
-            message: 'Successful Login',
-            token: token
+          var children = {};
+          console.log("foundUser._id", foundUser.id);
+          // Childs.find({
+          //   parentid: foundUser.id
+          // }, function(err, foundChildren) {
+          //
+          //   children = foundChildren;
+          //
+          // });
+
+          Childs.find({
+            parentid: foundUser.id
+          }, function(err, foundChildren) {
+
+            // return the information including token as JSON
+            res.json({
+              user: foundUser,
+              children: foundChildren,
+              success: true,
+              message: 'Successful Login',
+              token: token
+            });
+
+
           });
 
         } else {
