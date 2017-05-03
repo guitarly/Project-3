@@ -31,17 +31,7 @@
     </div>
   </div>
 
-  <!-- <div ng-controller="userController as userCtrl">
 
-
-    <a href="" ng-click="userCtrl.getChild()" class="btn btn-primary"><h4>Get users</h4></a></p>
-    <div ng-repeat="child in userCtrl.children">
-      {{child.firstname}}
-    </div>
-
-    {{vm.error}}
-
-  </div> -->
   <div ng-repeat="user in children">
 
     <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" role="region" aria-label="NGUYEN">
@@ -74,12 +64,12 @@
   </div>
 
 
-  <div class="payment-options col-md-10 col-md-offset-1" role="navigation" aria-label="Select Your Student Payment Option">
+  <div class="payment-options col-md-10 col-md-offset-1" aria-label="Select Your Student Payment Option">
     <h2 class="options-title">
 				Select Your Student Payment Option
 		</h2>
 
-    <div class="row">
+    <div class="row payment-options-well-center">
 
       <div class="payment-options-well well-green center-div col-xs-10 col-sm-5" role="region" aria-label="Add One-Time Funds">
         <h3 class="options-title">Add One-Time Funds</h3>
@@ -92,9 +82,7 @@
       <div class="payment-options-well well-blue center-div col-xs-10 col-sm-5" role="region" aria-label="Set Up AutoPay">
         <h3 class="options-title">Set Up AutoPay</h3>
         <div class="options-msg">Set your balance once, and let us handle the rest. Eliminate one-time payments.</div>
-        <div class="action-div">
-
-          <a id="setUpAutopay" href="#" class="btn btn-default btn-setupautopay" role="button">Get Started</a>
+        <div class="action-div"> <a id="setUpAutopay" href="#" class="btn btn-default btn-setupautopay" role="button">Get Started</a>
         </div>
       </div>
     </div>
