@@ -7,7 +7,6 @@ var usersSchema = mongoose.Schema({
   password: String,
   role: String,
   child: [Childs.schema]
-
 });
 
 var Users = mongoose.model('Users', usersSchema);

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Meals = require('../models/meals.js');
+var Child = require('../models/childs.js');
 
 router.get('/', function(req, res) {
   console.log("in child");
@@ -9,25 +10,16 @@ router.get('/', function(req, res) {
   });
 });
 
-router.post('/', function(req, res) {
-  Meals.create(req.body, function(err, createdMeal) {
-    // console.log(createdMeal);
-    // res.json(createdMeal);
-  });
-  Meals.find({}, function(err, foundMeal) {
-    res.json(foundMeal);
+
+router.post('/', function(req, res){
+  Meals.create(req.body, function(err, createdMeal){
+    res.json(createdMeal);
   });
 });
 
-router.get('/display', function(req, res) {
-  // Meals.create(req.body, function(err, createdMeal) {
-  //   console.log(createdMeal);
-  //   res.json(createdMeal);
-  // });
-  console.log('iam in display');
-
-  Meals.find({}, function(err, foundMeal) {
-    res.json(foundMeal);
+router.post('/display', function(req, res){
+  Meals.find({}, function(err, foundMeal){
+    res.json(createdMeal);
   });
 });
 

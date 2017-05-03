@@ -137,12 +137,27 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
   // Get all user .. testing..
   $scope.getUsers = function() {
     $http({
+<<<<<<< HEAD
+      method: 'POST',
+      url: '/meals',
+      data: {
+        menu: this.menu,
+        cost: this.cost,
+        date: this.date
+      },
+=======
       url: '/users',
       method: 'GET',
+>>>>>>> d3fb60635b08598a0a358aa86bd633fb13e0ae8b
       headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
     }).then(function(response) {
+<<<<<<< HEAD
+      vm.meals = response.data;
+      $location.path('/meals/display');
+    });
+=======
       console.log(response);
       if (response.data.status == 401) {
         this.error = "Unauthorized";
@@ -152,6 +167,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         // $location.path('/dashboard');
       }
     }.bind(this));
+>>>>>>> d3fb60635b08598a0a358aa86bd633fb13e0ae8b
   };
 
 }]);
