@@ -41,15 +41,6 @@ router.post('/', function(req, res) {
           });
 
           var children = {};
-          console.log("foundUser._id", foundUser.id);
-          // Childs.find({
-          //   parentid: foundUser.id
-          // }, function(err, foundChildren) {
-          //
-          //   children = foundChildren;
-          //
-          // });
-
           Childs.find({
             parentid: foundUser.id
           }, function(err, foundChildren) {
