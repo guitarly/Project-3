@@ -65,6 +65,12 @@ app.config(function($routeProvider) {
 
 });
 
+
+
+
+
+
+
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
   // app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
@@ -97,8 +103,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
         $rootScope.children = response.data.children;
 
         localStorage.setItem('token', JSON.stringify(response.data.token));
-
-        console.log("getLocalStorage = ", localStorage.getItem('token'));
         userPersistenceService.setCookieData(response.data.token);
         $window.sessionStorage.setItem('token', JSON.stringify(response.data.token));
 
