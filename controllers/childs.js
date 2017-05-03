@@ -3,8 +3,15 @@ var router = express.Router();
 var User = require('../models/users.js');
 var Childs = require('../models/childs.js');
 
+
+router.get('/getTheChild/:id', function(req, res) {
+  Childs.findById(req.params.id, function(err, fouldChild) {
+    res.json(fouldChild);
+  });
+});
+
 router.get('/', function(req, res) {
-  console.log("in child");
+
   Childs.find({}, function(err, foundChildren) {
     res.json(foundChildren);
   });
@@ -30,7 +37,6 @@ router.post('/add', function(req, res) {
     });
   });
 });
-
 
 
 router.post('/display', function(req, res) {

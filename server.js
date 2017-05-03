@@ -82,6 +82,8 @@ var mealsController = require('./controllers/meals.js');
 app.use('/meals', mealsController);
 
 
+// return _middlewares;
+
 mongoose.connection.once('open', function() {
   console.log("connection .. mongodb");
 });
