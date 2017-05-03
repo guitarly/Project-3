@@ -10,18 +10,21 @@ body {
   height: 100%;
   width: 100%;
   color: white;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("http://www.boardingschools.com/images/home/slides3/slide3.jpg");
+  background-image: linear-gradient(rgba(53, 170, 71, 0.2), rgba(53, 170, 71, 0.2)), url("http://www.boardingschools.com/images/home/slides3/slide3.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-position: center;
-  height: 100%;
-  background-attachment: fixed;
+  /*background-attachment: fixed;*/
 }
 
 .glyphicon {
   padding-right: 10px;
+}
+
+#mealAccounts {
+  margin-top: 5%;
 }
 
 
@@ -335,7 +338,6 @@ footer {
 
 .list-balances .payment-options .payment-options-well .btn-default {
   color: #ffffff !important;
-  /*background: lightgreen;*/
 }
 
 .list-balances .payment-options .payment-options-well.well-blue {
@@ -419,4 +421,33 @@ footer {
 
 .list-balances .list-row a:hover {
   color: #fd8a33;
+}
+
+.btn-setupautopay:hover, .btn-setupautopay:focus, .btn-setupautopay:active {
+  background: #6699CC;
+}
+
+.product-addstudent {
+  padding-bottom: 4px;
+  padding-right: 24px;
+}
+
+.product-addstudent span i {
+  padding-right: 0.2em;
+}
+
+#addStudent {
+  color: #337ab7;
+}
+
+#addStudent:hover, #addStudent:focus, #addStudent:active {
+  color: #fd8a33;
+}
+
+#makeAMealPayment {
+  background-color: rgb(53, 170, 71);
+}
+
+#setUpAutopay {
+  background-color: #337ab7;
 }
