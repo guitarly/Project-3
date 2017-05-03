@@ -1,4 +1,4 @@
-<p>
+<!-- <p>
   <a href="" ng-click="getUsers()" class="btn btn-primary"><h4>Get users</h4></a></p>
 
 {{vm.error}}
@@ -13,5 +13,80 @@
   </div>
 </div>
 
-<p><a href="#!/login" class="btn btn-primary" ng-click="vm.logout()">Logout</a></p>
-<p><a href="#!/childs" class="btn btn-primary">Childs Page</a></p>
+
+<p><a href="#!/childs" class="btn btn-primary">Childs Page</a></p> -->
+
+<div id="mealAccounts" class="row list-balances clearfix" role="main">
+  <!-- <h1 class="off-screen">Meal Accounts</h1> -->
+  <div class="header-row clearfix col-md-10 col-md-offset-1">
+    <h1>Meal Accounts</h1>
+  </div>
+
+  <div class="header-row clearfix col-md-10 col-md-offset-1">
+    <div class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+      <label class="margin-left-small">My Students</label>
+    </div>
+    <div class="header-col col-sm-3 col-md-3 col-lg-2 hidden-xs">
+      <label class="margin-left-small">Account Balance</label>
+    </div>
+  </div>
+
+
+  <div ng-repeat="user in children">
+
+    <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" role="region" aria-label="NGUYEN">
+      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+        <div class="list-col col-dark clearfix">
+          <span class="col-xs-8">
+
+						<span title="user.lastname"><a href="#">  {{user.firstname}} {{user.lastname}}</a></span>
+          </span>
+        </div>
+      </div>
+      <div class="list-col clearfix visible-xs col-xs-2">
+        <label class="inner-label">Balance:</label>
+      </div>
+      <div class="col-xs-6 col-xs-offset-4 col-sm-3 col-sm-offset-0 col-md-3 col-lg-2 text-right">
+        <div class="list-col clearfix col-default ">
+          <span class="">
+						{{user.funds | currency }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="clearfix col-md-10 col-md-offset-1 margin-vertical-medium" ng-controller="userController as userCtrl2">
+    <!-- Add new Students -->
+    <span><a id="addStudent" href="#!/childs/add" class="margin-bottom-small" ><i class="glyphicon glyphicon-plus-sign font-size-large"></i> Add a Student</a></span>
+  </div>
+
+
+  <div class="payment-options col-md-10 col-md-offset-1" aria-label="Select Your Student Payment Option">
+    <h2 class="options-title">
+				Select Your Student Payment Option
+		</h2>
+
+    <div class="row payment-options-well-center">
+
+      <div class="payment-options-well well-green center-div col-xs-10 col-sm-5" role="region" aria-label="Add One-Time Funds">
+        <h3 class="options-title">Add One-Time Funds</h3>
+        <div class="options-msg">Make a one-time payment to your student's account.</div>
+        <div class="action-div">
+          <a id="makeAMealPayment" href="#!/dashboard" class="btn btn-default btn-makeamealpayment" role="button">Make a Payment</a>
+        </div>
+      </div>
+
+      <div class="payment-options-well well-blue center-div col-xs-10 col-sm-5" role="region" aria-label="Set Up AutoPay">
+        <h3 class="options-title">Set Up AutoPay</h3>
+        <div class="options-msg">Set your balance once, and let us handle the rest. Eliminate one-time payments.</div>
+        <div class="action-div"> <a id="setUpAutopay" href="#!/dashboard" class="btn btn-default btn-setupautopay" role="button">Get Started</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
