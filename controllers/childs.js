@@ -10,8 +10,9 @@ router.get('/getTheChild/:id', function(req, res) {
   });
 });
 
-router.get('/', function(req, res) {
 
+
+router.get('/', function(req, res) {
   Childs.find({}, function(err, foundChildren) {
     res.json(foundChildren);
   });
@@ -19,7 +20,7 @@ router.get('/', function(req, res) {
 
 // Add new child
 router.post('/add', function(req, res) {
-  console.log(req.body);
+
   User.findById(req.body.parentid, function(err, foundUser) {
     Childs.create(req.body, function(err, createdChild) {
       foundUser.child.push(createdChild);
@@ -59,8 +60,6 @@ router.delete('/:id', function(req, res) {
     res.json(deletedChildren);
   });
 });
-
-
 
 
 module.exports = router;

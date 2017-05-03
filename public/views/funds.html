@@ -1,0 +1,69 @@
+<h1>Fund Student</h1>
+
+
+<form class="form-class">
+  <div class="row table-responsive">
+    <!-- <table class="table table-striped table-bordered table-hover"> -->
+    <table id="table-all" class="display table-bordered" cellspacing=" 0 " width="100% ">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Balance</th>
+          <th>Select Amounts</th>
+          <th>Amounts</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="child in children">
+        <tr>
+          <td>{{child.firstname}} {{child.lastname}}</td>
+          <td>{{child.funds | currency}} </td>
+          <td>
+            <label class="btn radioselect">
+              <input type="radio" value="20" ng-model="child.amount" value="20">
+              <label>
+                  $20
+                </label>
+            </label>
+            <label class="btn radioselect">
+              <input type="radio" ng-model="child.amount" value="30" >
+              <label>
+                  $30
+                </label>
+            </label>
+            <label class="btn radioselect">
+              <input type="radio"  ng-model="child.amount" value="40">
+              <label>
+                  $40
+                </label>
+            </label>
+            <label class="btn radioselect active">
+                  <input type="radio"  value="other" >
+                  <label>
+                    Other
+                    <div class="form-inline white other-paymentamt">
+                      <span class="other-paymentamt">$</span>
+                      <input type="text" ng-model="child.amount" placeholder="Amt" size="7" autocomplete="off" maxlength="7" value="" aria-label="Payment Amount">
+                    </div>
+                  </label>
+            </label>
+
+          </td>
+          <td>{{child.amount | currency}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="payment-options-row">
+      <input type="submit" value="Fund Now!" id="placeMealOrder" name="shared.titles.fundnow" class="btn btn-primary disabled">
+
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#table-all').DataTable({
+      "lengthChange": false
+    });
+
+  });
+</script>
