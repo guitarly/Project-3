@@ -3,6 +3,12 @@ var router = express.Router();
 var Users = require('../models/users.js');
 
 
+router.get('/getParent/:id', function(req, res) {
+
+  Users.findById(req.params.id, function(err, foundUser) {
+    res.json(foundUser);
+  });
+});
 
 router.get('/', function(req, res) {
   console.log("in User");

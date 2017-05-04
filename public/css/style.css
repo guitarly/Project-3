@@ -412,7 +412,7 @@ footer {
 }
 
 .payment-options-well-center {
-  float: right;
+  float: none;
 }
 
 .list-balances .payment-options .options-title {
@@ -468,15 +468,22 @@ footer {
   background-color: #337ab7;
 }
 
+.table-responsive {
+  width: 60%;
+}
+
+.options-title {
+  width: 80%;
+}
+
 
 /*Menu Dropdown*/
 
-
-/*.dropbtn {
+.dropbtn {
   background-color: #4CAF50;
   color: white;
-  padding: 16px;
-  font-size: 16px;
+  padding: 7px;
+  font-size: 12px;
   border: none;
   cursor: pointer;
 }
@@ -489,7 +496,6 @@ footer {
 .dropdown-content {
   display: none;
   position: absolute;
-  right: 0;
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -513,4 +519,4 @@ footer {
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
-}*/
+}
