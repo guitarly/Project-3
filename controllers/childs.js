@@ -13,10 +13,11 @@ router.get('/', function(req, res) {
 // Add new child
 router.post('/add', function(req, res) {
   console.log(req.body);
-  User.findById(req.body.parentid, function(err, foundUser) {
+  User.findById(req.body.parentid, function(err, foundUser){
     Childs.create(req.body, function(err, createdChild) {
       foundUser.child.push(createdChild);
       foundUser.save(function(err, data) {
+      
         res.json(createdChild);
       });
     });

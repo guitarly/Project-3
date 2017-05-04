@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <form class="" ng-submit="vm.addMeal()">
+      <form>
         <div class="form-group">
           <label for="">Menu</label><input type="text" ng-model="vm.menu" class="form-control">
         </div>
@@ -16,9 +16,22 @@
         <div class="form-group">
           <label for="">Date:</label><input class="form-control" type="date"  ng-model="vm.date"><br>
         </div>
-        <input class="btn btn-primary"type="submit" name="" value="Add Meal"><br>
-      </form>
 
+        <div class="form-group">
+          <label for="">Child</label>
+          <select class="form-control">
+
+            <option ng-repeat="user in children" ng-model="user.firstname">{{user.firstname}} {{user.lastname}}
+            </select>
+          </option>
+          <input  class="btn btn-primary"type="submit" ng-click="vm.addMeal(user.lastname)" value="Add Meal"/><br>
+
+        </div>
+
+        <!-- <input type="text" ng-model="vm.childid" value="childs._id" hidden> -->
+
+
+      </form>
     </div>
   </div>
 </div>

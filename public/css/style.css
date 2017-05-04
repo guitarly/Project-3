@@ -5,6 +5,9 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.main{
+  padding: 160px;
+}
 
 .header-section {
   height: 100%;

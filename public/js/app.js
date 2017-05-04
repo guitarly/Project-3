@@ -159,9 +159,6 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
 // Set User Control
 app.controller('userController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
   var vm = this;
-
-
-
   this.saveChild = function(parentid) {
 
     $http({
@@ -185,6 +182,8 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
   };
 
   this.getChild = function() {
+    console.log("clicked paa");
+    console.log(id);
     $http({
       method: 'GET',
       url: '/childs',
@@ -196,7 +195,7 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
       vm.childs = response.data;
     });
   };
-  // this.getChild();
+
   this.editChild = function(id) {
     this.editableChild = id;
   };
@@ -234,11 +233,14 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
 app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', '$cookies', function($http, $scope, $location, $rootScope, $cookies) {
   var vm = this;
   //added a meals
-  this.addMeal = function() {
+  this.addMeal = function(childid) {
+    console.log("clickedddddd");
+console.log(childid);
     $http({
       method: 'POST',
       url: '/meals',
       data: {
+        childid: childid,
         menu: this.menu,
         cost: this.cost,
         date: this.date
@@ -253,8 +255,9 @@ app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', 
     });
   };
 
-  this.getMeal = function() {
 
+  this.getMeal = function() {
+    console.log("get");
     $http({
       method: 'GET',
       url: '/meals',
@@ -266,7 +269,7 @@ app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', 
       vm.meals = response.data;
     });
   };
-  // this.getMeal();
+  this.getMeal();
 
 
   this.editMeal = function(id) {
@@ -300,8 +303,6 @@ app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', 
       vm.getMeal();
     });
   };
-
-
 }]);
 
 app.factory("userPersistenceService", [
