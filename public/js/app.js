@@ -44,7 +44,7 @@ app.config(function($routeProvider) {
       controller: 'childController',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
-    }).when('/childs/:id', {
+  }).when('/childs/editChild', {
       controller: 'childController',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
@@ -53,7 +53,12 @@ app.config(function($routeProvider) {
       controller: 'childController',
       templateUrl: 'views/mealhistory.html',
       controllerAs: 'vm'
-    }).when('/users/funds', {
+  }).when('/childs/getChildren', {
+      controller: 'childController',
+      templateUrl: 'views/editChild.html',
+      controllerAs: 'vm'
+  })
+    .when('/users/funds', {
       controller: 'userController',
       templateUrl: 'views/funds.html',
       controllerAs: 'vm'
@@ -238,11 +243,26 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
   };
 
   this.editChild = function(id) {
-    this.editableChild = id;
+      console.log("editChild clicked");
+      console.log("currentUser", $rootScope.currentUser);
+      $location.path('/childs/editChild');
+      console.log(id);
+    //   $http({
+    //       method: "GET",
+    //       url: '/childs/editChild',
+    //       headers: {
+    //         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+    //       }
+    //   }).then(function(response) {
+    //       console.log(response);
+    //       vm.childs = response.data;
+    //   });
   };
 
   this.updateChild = function(child) {
       console.log("update child");
+      console.log("updateChild clicked");
+      console.log("id");
     $http({
       method: 'PUT',
       url: '/childs/' + child._id,
@@ -258,6 +278,7 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
 
 
   this.deleteChild = function(id) {
+      console.log("deleting...");
     $http({
       method: 'DELETE',
       url: '/childs/' + id,
@@ -268,9 +289,6 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
       vm.getChild();
     });
   };
-
-
-
 }]);
 
 // Set Meals Control

@@ -1,8 +1,14 @@
+<div ng-repeat = "child in currentUser.child">
+    {{child.firstname}}
+</div>
+
+
+
 <div class="userpage">
 
     <div class="container">
-        <div class="row">
-            <h1>User Name</h1>
+        <div class="row" >
+            <h1>{{childs.name}}</h1>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -19,12 +25,14 @@
             <div class="header-row clearfix col-md-10 col-md-offset-1">
                 <h3>Edit Student</h3>
             </div>
-
             <div  class="header-row clearfix col-md-10 col-md-offset-1">
                 <ul>
                     <li ng-repeat="child in vm.childs">
                         <h3 ng-click="vm.editChild(child._id)">{{child.name}}</h3>
                         <ul ng-if="vm.editableChild == child._id" >
+                            <li>Name {{child.firstname}} {{child.lastname}}</li>
+                            <li>School: {{child.school}}</li>
+                            <li>Grade: {{child.grade}}</li>
                         </ul>
                         <br>
                     </li>
@@ -39,7 +47,7 @@
 
                         <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                             <label for="">Last Name</label>
-                            <input class="form-control"  type="text" ng-model="vm.lastname"required=""><br>
+                            <input class="form-control"  type="text" ng-model="vm.lastname" required=""><br>
                         </div>
 
                         <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
@@ -58,7 +66,7 @@
                             <!-- call edit child function on click -->
                             <input type="submit" value="Update" ng-click="vm.updateChild(child._id)">
                             <!-- call deleteChild function on click -->
-                            <input ng-click="vm.deleteChild(child._id)" type="submit" value="Delete">
+                            <button class="margin-bottom-small btn btn-default" role="button"  ng-click="vm.deleteChild(child._id)" type="submit" value="Delete"></button>
                         </div>
                     </form>
                 </ul>
