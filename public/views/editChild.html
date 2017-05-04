@@ -22,7 +22,7 @@
 
             <div  class="header-row clearfix col-md-10 col-md-offset-1">
                 <ul>
-                    <li ng-repeat="child in vm.child">
+                    <li ng-repeat="child in vm.childs">
                         <h3 ng-click="vm.editChild(child._id)">{{child.name}}</h3>
                         <ul ng-if="vm.editableChild == child._id" >
                         </ul>
@@ -48,6 +48,12 @@
                                 <option>Level Creek Elementary</option>
                                 <option>North Gwinnett Middle School</option>
                                 <option>North Gwinnett High School</option>
+                                <option>Hans Christian Anderson Elementary</option>
+                                <option>JFK Middle School</option>
+                                <option>Rockledge High School</option>
+                                <option>Golfview Elementary</option>
+                                <option>Ronald McNair Middle School</option>
+                                <option>Cocoa High School</option>
                             </select><br>
                             <!-- call edit child function on click -->
                             <input type="submit" value="Update" ng-click="vm.updateChild(child._id)">
