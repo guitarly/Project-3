@@ -1,21 +1,68 @@
+<div class="userpage">
 
-<ul>
-    <li ng-repeat="child in vm.childs">
-      <h3 ng-click="vm.editChild(child._id)">{{child.firstname}}</h3>
-      <ul ng-if="vm.editableChild !== child._id" >
-      </ul>
-      <br>
+    <div class="container">
+        <div class="row">
+            <h1>User Name</h1>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#!">School Payment</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/#!/dashboard">Home</a></li>
+                        <li><a href="/#!/childs/add">Add Child</a></li>
+                        <li><a href="/#!/childs/funds">Funds</a></li>
+                    </ul>
+                </div>
+            </nav>
 
+            <div class="header-row clearfix col-md-10 col-md-offset-1">
+                <h3>Edit Student</h3>
+            </div>
 
+            <div  class="header-row clearfix col-md-10 col-md-offset-1">
+                <ul>
+                    <li ng-repeat="child in vm.childs">
+                        <h3 ng-click="vm.editChild(child._id)">{{child.name}}</h3>
+                        <ul ng-if="vm.editableChild == child._id" >
+                        </ul>
+                        <br>
+                    </li>
 
-      <form ng-submit="vm.updateChild(child)"
-      ng-if="vm.editableChild == child._id">
-        <label for="">First Name:</label><input type="text" ng-model="child.firstname"><br><br>
-        <label for="">Last Name:</label><input type="text" ng-model="child.lastname"><br>
-        <label for="">School:</label><input type="text" ng-model="child.school"><br>
-          <label for="">Grade:</label><input type="text" ng-model="child.grade"><br>
-        <input type="submit" value="Update">
-        <input ng-click="vm.deleteChild(child._id)" type="submit" value="Delete">
-      </form>
-    </li>
-  </ul>
+                    <form ng-submit="vm.updateChild(child)"
+                        ng-if="vm.editableChild == child._id">
+
+                        <div class="well well-sm"class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+                            <label for="">First Name</label>
+                            <input class="form-control"  type="text" ng-model="vm.firstname"required=""><br>
+                        </div>
+
+                        <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+                            <label for="">Last Name</label>
+                            <input class="form-control"  type="text" ng-model="vm.lastname"required=""><br>
+                        </div>
+
+                        <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+                            <label for="school">School</label>
+                            <select class="form-control" name="School" ng-model="vm.school" required="">
+                                <option>Level Creek Elementary</option>
+                                <option>North Gwinnett Middle School</option>
+                                <option>North Gwinnett High School</option>
+                                <option>Hans Christian Anderson Elementary</option>
+                                <option>JFK Middle School</option>
+                                <option>Rockledge High School</option>
+                                <option>Golfview Elementary</option>
+                                <option>Ronald McNair Middle School</option>
+                                <option>Cocoa High School</option>
+                            </select><br>
+                            <!-- call edit child function on click -->
+                            <input type="submit" value="Update" ng-click="vm.updateChild(child._id)">
+                            <!-- call deleteChild function on click -->
+                            <input ng-click="vm.deleteChild(child._id)" type="submit" value="Delete">
+                        </div>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

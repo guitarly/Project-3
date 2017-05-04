@@ -9,6 +9,7 @@ router.get('/', function(req, res) {
   });
 });
 
+
 router.post('/', function(req, res){
   console.log(req.body.childid);
   Child.findById(req.body.childid, function(err, foundChild){
@@ -23,8 +24,9 @@ router.post('/', function(req, res){
 });
 
 
-router.post('/display', function(req, res){
-  Meals.find({}, function(err, foundMeal){
+
+router.post('/display', function(req, res) {
+  Meals.find({}, function(err, foundMeal) {
     res.json(createdMeal);
   });
 });
