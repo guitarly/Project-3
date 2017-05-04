@@ -1,69 +1,452 @@
-<h1>Fund Student</h1>
+<!-- <h1>Fund Student</h1> -->
 
 
-<form class="form-class">
-  <div class="row table-responsive">
-    <!-- <table class="table table-striped table-bordered table-hover"> -->
-    <table id="table-all" class="display table-bordered" cellspacing=" 0 " width="100% ">
-      <thead>
-        <tr>
-          <th>Student</th>
-          <th>Balance</th>
-          <th>Select Amounts</th>
-          <th>Amounts</th>
-        </tr>
-      </thead>
-      <tbody ng-repeat="child in children">
-        <tr>
-          <td>{{child.firstname}} {{child.lastname}}</td>
-          <td>{{child.funds | currency}} </td>
-          <td>
-            <label class="btn radioselect">
-              <input type="radio" value="20" ng-model="child.amount" value="20">
+<form>
+
+
+  <div ng-controller="childController as childCtrl">
+    <div id="mealAccounts" class="row list-balances clearfix" role="main">
+      <div class="header-row clearfix col-md-10 col-md-offset-1">
+        <h1>Fund Student</h1>
+      </div>
+
+      <div class="header-row clearfix col-md-10 col-md-offset-1">
+        <div class="header-col col-sm-2 col-md-2 col-lg-3 hidden-xs">
+          <label class="margin-left-small">Name</label>
+        </div>
+        <div class="header-col col-sm-2 col-md-2 col-lg-1 hidden-xs">
+          <label class="margin-left-small">Account Balance</label>
+        </div>
+        <div class="header-col col-sm-6 col-md-6 col-lg-5 hidden-xs">
+          <label class="margin-left-small">Select Amount</label>
+        </div>
+        <div class="header-col col-sm-1 col-md-1 col-lg-0 hidden-xs">
+          <label class="margin-left-small">Amount</label>
+        </div>
+      </div>
+      <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" ng-repeat="child in children">
+        <div class="header-col col-sm-2 col-md-2 col-lg-3 hidden-xs">
+          {{child.firstname}} {{child.lastname}}
+        </div>
+        <div class="header-col col-sm-2 col-md-2 col-lg-1 hidden-xs">
+          {{child.funds | currency}}
+        </div>
+        <div class="header-col col-sm-6 col-md-6 col-lg-5 hidden-xs">
+          <label class="btn radioselect">
+          <input type="radio" value="20" ng-model="child.amount" value="20">
+          <label>
+              $20
+            </label>
+          </label>
+          <label class="btn radioselect">
+          <input type="radio" ng-model="child.amount" value="30" >
+          <label>
+              $30
+            </label>
+          </label>
+          <label class="btn radioselect">
+          <input type="radio"  ng-model="child.amount" value="40">
+          <label>
+              $40
+            </label>
+          </label>
+          <label class="btn radioselect active">
+              <input type="radio"  value="other" >
               <label>
-                  $20
-                </label>
-            </label>
-            <label class="btn radioselect">
-              <input type="radio" ng-model="child.amount" value="30" >
-              <label>
-                  $30
-                </label>
-            </label>
-            <label class="btn radioselect">
-              <input type="radio"  ng-model="child.amount" value="40">
-              <label>
-                  $40
-                </label>
-            </label>
-            <label class="btn radioselect active">
-                  <input type="radio"  value="other" >
-                  <label>
-                    Other
-                    <div class="form-inline white other-paymentamt">
-                      <span class="other-paymentamt">$</span>
-                      <input type="text" ng-model="child.amount" placeholder="Amt" size="7" autocomplete="off" maxlength="7" value="" aria-label="Payment Amount">
-                    </div>
-                  </label>
-            </label>
+                Other
+                <div class="form-inline white other-paymentamt">
+                  <span class="other-paymentamt">$</span>
+                  <input type="text" ng-model="child.amount" placeholder="Amt" size="7" autocomplete="off" maxlength="7" value="" aria-label="Payment Amount">
+                </div>
+              </label>
+          </label>
+        </div>
+        <div class="header-col col-sm-1 col-md-1 col-lg-0 hidden-xs text-left">
+          {{child.amount | currency}}
+        </div>
 
-          </td>
-          <td>{{child.amount | currency}}</td>
-        </tr>
-
-      </tbody>
-    </table>
-    <div class="payment-options-row">
-      <input type="submit" value="Fund Now!" id="placeMealOrder" name="shared.titles.fundnow" class="btn btn-primary disabled">
+      </div>
 
     </div>
+
+  </div>
+
+  <!-- CC TESTing -->
+  <div class="col-md-10 col-md-offset-1 margin-bottom-10">
+    <div class="row">
+
+
+      <div id="selectPaymentMethodBlock" class="" role="region" aria-label="Select Payment Method">
+        <h2 class="off-screen">Payment Method</h2>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+          <!-- <label>Choose a payment method:</label> -->
+          <div class="selectaccttype margin-bottom-medium">
+            <div class="btn-group" data-toggle="buttons">
+
+
+              <label class="btn radioselect active" id="accttype_credit_label">
+						<input type="radio" name="orderStatus.paymentMethodType" id="accttype_credit" value="credit" checked="">
+						<label for="accttype_credit">
+								<i class="fa fa-cc-visa fa-3x"></i>
+								<i class="fa fa-cc-mastercard fa-3x"></i>
+								<i class="fa fa-cc-discover fa-3x"></i>
+							<br>
+							Credit Card
+						</label>
+              </label>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <input type="hidden" name="orderStatus.isEditExpired" value="false" id="paymentMethods_isEditExpired">
+          <input type="hidden" name="orderStatus.isEditEnabled" value="false" id="paymentMethods_isEditEnabled">
+
+          <div id="existingbillingacct">
+            <div id="existingecheck" class="hidden">
+              <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                <div class="row">
+                  <div class="form-group ">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+										<i class="fa fa-credit-card"></i>
+									</span>
+                      <div class="input-icon right">
+                        <select name="orderStatus.echeckBillingAcctKey" id="echeckAcctList" class="form-control select2-hidden-accessible" data-error="Billing Account is required" required="required" style="width: 100%;" tabindex="-1" aria-hidden="true">
+
+
+</select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-echeckAcctList-container"><span class="select2-selection__rendered" id="select2-echeckAcctList-container"><span class="select2-selection__placeholder">Select Billing Account</span></span>
+                        <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                        </span>
+                        </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+
+                      </div>
+                    </div>
+                    <span id="echeckAcctList_helpBlock" class="help-block with-errors">
+
+								</span>
+                  </div>
+                </div>
+              </div>
+              <div id="accountDetails_echeck" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-size-moderate payment-methods-account-details hidden">
+                Account Details:
+              </div>
+            </div>
+            <div id="accountDetails_credit" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-size-moderate payment-methods-account-details hidden">
+              Account Details:
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <input type="hidden" name="orderStatus.isNewBillingAcct" value="true" id="paymentMethods_isNewBillingAcct">
+
+        <div id="newbillingacct" class="">
+
+
+
+
+          <div id="newcredit" class="">
+            <div class="col-md-12">
+              <div id="paymentMethods_selCreditCardType_row" class="row">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+											<i class="fa fa-credit-card"></i>
+										</span>
+                    <div class="input-icon right">
+                      <select name="orderStatus.creditCardType" id="paymentMethods_selCreditCardType" class="form-control select2-hidden-accessible" data-error="Card Type is required" required="required" style="width: 100%;" tabindex="-1" aria-hidden="true">
+    <option value="visa" selected="selected">Visa</option>
+    <option value="mastercard">MasterCard</option>
+    <option value="discover">Discover</option>
+
+
+</select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paymentMethods_selCreditCardType-container">
+  <!-- <span class="select2-selection__rendered" id="select2-paymentMethods_selCreditCardType-container" title="Visa">Visa</span> -->
+                      <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                      </span>
+                      </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+
+                    </div>
+                  </div>
+                  <span id="paymentMethods_selCreditCardType_helpBlock" class="help-block with-errors margin-bottom-small"></span>
+                  <em class="text-muted font-size-moderate">
+										Only U.S. issued credit cards are accepted
+									</em>
+                </div>
+              </div>
+              <div id="paymentMethods_creditCardNumber_row" class="row">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+											<i class="fa fa-credit-card"></i>
+										</span>
+                    <div class="input-icon right">
+                      <input type="text" name="orderStatus.creditCardNumber" maxlength="30" value="" id="paymentMethods_creditCardNumber" class="form-control" data-creditcardnumber="#paymentMethods_selCreditCardType;" data-error="Card Number is required" autocomplete="off"
+                        placeholder="Card #" data-creditcardnumber-error="Card Number is invalid" aria-label="Card Number" required="required">
+                    </div>
+                  </div>
+                  <span id="paymentMethods_creditCardNumber_helpBlock" class="help-block with-errors"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div id="paymentMethods_expirationDate" class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</span>
+                    <div class="input-icon right">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <select name="orderStatus.expMonth" id="paymentMethods_selMonth" class="form-control select2-hidden-accessible" data-paymentmethods_expirationdatemonth-error="Expiration Date must be a date in the future" data-error="Expiration Date is required" data-dualrequired="#paymentMethods_selYear"
+                            required="required" data-paymentmethods_expirationdatemonth="#paymentMethods_selYear" style="width: 100%;" tabindex="-1" aria-hidden="true">
+    <option value=""></option>
+    <option value="0" selected="selected">January</option>
+    <option value="1">February</option>
+    <option value="2">March</option>
+    <option value="3">April</option>
+    <option value="4">May</option>
+    <option value="5">June</option>
+    <option value="6">July</option>
+    <option value="7">August</option>
+    <option value="8">September</option>
+    <option value="9">October</option>
+    <option value="10">November</option>
+    <option value="11">December</option>
+
+
+</select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paymentMethods_selMonth-container">
+                        <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                          </span>
+                          </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <select name="orderStatus.expYear" id="paymentMethods_selYear" class="form-control select2-hidden-accessible" data-paymentmethods_expirationdateyear="#paymentMethods_selMonth" data-error="Expiration Date is required" data-dualrequired="#paymentMethods_selMonth"
+                            data-paymentmethods_expirationdateyear-error="Expiration Date must be a date in the future" required="required" style="width: 100%;" tabindex="-1" aria-hidden="true">
+    <option value=""></option>
+    <option value="2017">2017</option>
+    <option value="2018" selected="selected">2018</option>
+    <option value="2019">2019</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+
+
+</select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" style="border-top-width: 0px;">
+
+                        <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                          </span>
+                          </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span id="expirationDate_helpBlock" class="help-block with-errors"></span>
+                </div>
+              </div>
+              <div id="paymentMethods_nameOnCreditCard_row" class="row">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+											<i class="fa fa-user"></i>
+										</span>
+                    <div class="input-icon right">
+                      <input type="text" name="orderStatus.nameOnCreditCard" maxlength="50" value="" id="paymentMethods_nameOnCreditCard" class="form-control" data-error="Name on Card is required" placeholder="Name on Card" aria-label="Name on Card" required="required">
+                    </div>
+                  </div>
+                  <span id="paymentMethods_nameOnCreditCard_helpBlock" class="help-block with-errors"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-6 col-sm-12 col-xs-12">
+
+        <div id="newbillingacct_address" class="">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+									<i class="fa fa-home"></i>
+								</span>
+                  <div class="input-icon right">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <input type="text" name="orderStatus.streetLine1" maxlength="60" value="" id="paymentMethods_streetLine1" class="form-control" data-error="Billing Address is required" placeholder="Address Line 1" aria-label="Address Line 1" required="required">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <input type="text" name="orderStatus.streetLine2" maxlength="60" value="" id="paymentMethods_streetLine2" class="form-control border-top-none" data-validate="false" placeholder="Address Line 2 (Optional)" data-clearerrorsonupdate="false" aria-label="Address Line 2">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span id="billingAddress_helpBlock" class="help-block with-errors"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+									<i class="fa fa-building-o"></i>
+								</span>
+                  <div class="input-icon right">
+                    <input type="text" name="orderStatus.city" maxlength="40" value="" id="paymentMethods_city" class="form-control" data-error="City is required" placeholder="City" aria-label="City" required="required">
+                  </div>
+                </div>
+                <span id="paymentMethods_city_helpBlock" class="help-block with-errors"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+									<i class="fa fa-map-marker"></i>
+								</span>
+                  <div class="input-icon right">
+                    <select name="orderStatus.region" id="paymentMethods_selRegion" class="form-control select2-hidden-accessible" data-error="State/Province is required" maxlength="20" placeholder="State" required="required" style="width: 100%;" tabindex="-1" aria-hidden="true">
+    <option value="" selected="selected"></option>
+    <option value="AL.US">Alabama</option>
+    <option value="AK.US">Alaska</option>
+    <option value="AL.CA">Alberta, Canada</option>
+    <option value="AZ.US">Arizona</option>
+    <option value="AR.US">Arkansas</option>
+    <option value="AA.US">Armed Forces Americas</option>
+    <option value="AE.US">Armed Forces Europe</option>
+    <option value="AP.US">Armed Forces Pacific</option>
+    <option value="BC.CA">British Columbia, Canada</option>
+    <option value="CA.US">California</option>
+    <option value="CO.US">Colorado</option>
+    <option value="CT.US">Connecticut</option>
+    <option value="DC.US">D.C.</option>
+    <option value="DE.US">Delaware</option>
+    <option value="FL.US">Florida</option>
+    <option value="GA.US">Georgia</option>
+    <option value="HI.US">Hawaii</option>
+    <option value="ID.US">Idaho</option>
+    <option value="IL.US">Illinois</option>
+    <option value="IN.US">Indiana</option>
+    <option value="IA.US">Iowa</option>
+    <option value="KS.US">Kansas</option>
+    <option value="KY.US">Kentucky</option>
+    <option value="LA.US">Louisiana</option>
+    <option value="ME.US">Maine</option>
+    <option value="MB.CA">Manitoba, Canada</option>
+    <option value="MD.US">Maryland</option>
+    <option value="MA.US">Massachusetts</option>
+    <option value="MI.US">Michigan</option>
+    <option value="MN.US">Minnesota</option>
+    <option value="MS.US">Mississippi</option>
+    <option value="MO.US">Missouri</option>
+    <option value="MT.US">Montana</option>
+    <option value="NE.US">Nebraska</option>
+    <option value="NV.US">Nevada</option>
+    <option value="NB.CA">New Brunswick, Canada</option>
+    <option value="NH.US">New Hampshire</option>
+    <option value="NJ.US">New Jersey</option>
+    <option value="NM.US">New Mexico</option>
+    <option value="NY.US">New York</option>
+    <option value="NL.CA">Newfoundland, Canada</option>
+    <option value="NC.US">North Carolina</option>
+    <option value="ND.US">North Dakota</option>
+    <option value="NT.CA">Northwest Territories, Canada</option>
+    <option value="NS.CA">Nova Scotia, Canada</option>
+    <option value="NU.CA">Nunavut, Canada</option>
+    <option value="OH.US">Ohio</option>
+    <option value="OK.US">Oklahoma</option>
+    <option value="ON.CA">Ontario, Canada</option>
+    <option value="OR.US">Oregon</option>
+    <option value="PA.US">Pennsylvania</option>
+    <option value="PE.CA">Prince Edward Island, Canada</option>
+    <option value="PR.US">Puerto Rico</option>
+    <option value="QC.CA">Quebec, Canada</option>
+    <option value="RI.US">Rhode Island</option>
+    <option value="SK.CA">Saskatchewan, Canada</option>
+    <option value="SC.US">South Carolina</option>
+    <option value="SD.US">South Dakota</option>
+    <option value="TN.US">Tennessee</option>
+    <option value="TX.US">Texas</option>
+    <option value="UT.US">Utah</option>
+    <option value="VT.US">Vermont</option>
+    <option value="VA.US">Virginia</option>
+    <option value="WA.US">Washington</option>
+    <option value="WV.US">West Virginia</option>
+    <option value="WI.US">Wisconsin</option>
+    <option value="WY.US">Wyoming</option>
+    <option value="YT.CA">Yukon, Canada</option>
+
+
+</select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paymentMethods_selRegion-container"><span class="select2-selection__rendered" id="select2-paymentMethods_selRegion-container"><span class="select2-selection__placeholder">Select State/Province</span></span>
+                    <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                    </span>
+                    </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+
+                  </div>
+                </div>
+                <span id="paymentMethods_selRegion_helpBlock" class="help-block with-errors"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+									<i class="fa fa-envelope"></i>
+								</span>
+                  <div class="input-icon right">
+                    <input type="text" name="orderStatus.zip" maxlength="30" value="" id="paymentMethods_zip" class="form-control" data-error="ZIP Code is required" data-minlength-error="ZIP Code must be at least 5 characters" data-minlength="5" placeholder="ZIP Code" aria-label="ZIP Code"
+                      required="required">
+                  </div>
+                </div>
+                <span id="paymentMethods_zip_helpBlock" class="help-block with-errors"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-large margin-bottom-10">
+      <div class="totals margin-bottom-40" role="region" aria-label="Order Totals">
+        <h3 class="off-screen">Order Totals</h3>
+
+        <!-- <div>
+          <p class="total-label">Subtotal</p>
+          <p class="total-field"><span id="subtotal">$0.00</span></p>
+        </div>
+        <div id="taxField" hidden="true" style="display: none;">
+          <p class="total-label">Sales Tax</p>
+          <p class="total-field"><span id="salesTax">$0.00</span></p>
+        </div> -->
+
+        <div>
+          <p class="total-label">Total: <span id="totalAmt">$0.00</span></p>
+        </div>
+      </div>
+      <!-- <div class="payment-options clearfix col-md-10 col-md-offset-1"> -->
+      <input type="submit" value="Fund Now!" id="placeMealOrder" name="shared.titles.fundnow" class="btn btn-primary ">
+
+      <!-- </div> -->
+    </div>
+  </div>
   </div>
 </form>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#table-all').DataTable({
-      "lengthChange": false
-    });
-
-  });
-</script>
