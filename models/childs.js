@@ -8,7 +8,7 @@ var childsSchema = mongoose.Schema({
   school: String,
   grade: Number,
   funds: Number,
-  meals: [Meals.schema]
+  meal: [Meals.schema]
 
 });
 

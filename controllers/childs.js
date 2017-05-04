@@ -20,7 +20,6 @@ router.get('/', function(req, res) {
 
 // Add new child
 router.post('/add', function(req, res) {
-
   User.findById(req.body.parentid, function(err, foundUser) {
     Childs.create(req.body, function(err, createdChild) {
       foundUser.child.push(createdChild);
