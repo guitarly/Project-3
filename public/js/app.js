@@ -241,6 +241,7 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
   };
 
   this.updateChild = function(child) {
+      console.log("update child");
     $http({
       method: 'PUT',
       url: '/childs/' + child._id,
