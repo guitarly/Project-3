@@ -211,7 +211,7 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
   this.getOneChild = function(childId) {
     $http({
       method: 'GET',
-      url: '/childs/getOneChild/' + childId,
+      url: '/childs/getTheChild/' + childId,
       headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
