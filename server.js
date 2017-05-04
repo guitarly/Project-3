@@ -16,8 +16,8 @@ var expressJWT = require('express-jwt');
 
 
 var port = process.env.PORT || 3001;
-// var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
-var mongoDBURI = config.database;
+var mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/project3';
+// var mongoDBURI = config.database;
 
 mongoose.connect(mongoDBURI);
 
