@@ -1,9 +1,9 @@
 <!-- <h1>Fund Student</h1> -->
-
-
-<form>
-
-
+<!--
+<div ng-controller="userController as userctrl">
+ -->
+{{error_msg}}
+<form ng-submit="submitFund()">
   <div ng-controller="childController as childCtrl">
     <div id="mealAccounts" class="row list-balances clearfix" role="main">
       <div class="header-row clearfix col-md-10 col-md-offset-1">
@@ -25,6 +25,8 @@
         </div>
       </div>
       <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" ng-repeat="child in children">
+        <input type="text" ng-model="vm.id" value="child._id" hidden>
+
         <div class="header-col col-sm-2 col-md-2 col-lg-3 hidden-xs">
           {{child.firstname}} {{child.lastname}}
         </div>
@@ -63,6 +65,7 @@
         </div>
         <div class="header-col col-sm-1 col-md-1 col-lg-0 hidden-xs text-left">
           {{child.amount | currency}}
+          <input type="text" ng-model="vm.amount" value="child.amount" hidden>
         </div>
 
       </div>
@@ -80,7 +83,6 @@
         <h2 class="off-screen">Payment Method</h2>
         <div class="col-md-12 col-sm-12 col-xs-12">
 
-          <!-- <label>Choose a payment method:</label> -->
           <div class="selectaccttype margin-bottom-medium">
             <div class="btn-group" data-toggle="buttons">
 
@@ -111,19 +113,9 @@
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">
-										<i class="fa fa-credit-card"></i>
-									</span>
-                      <div class="input-icon right">
-                        <select name="orderStatus.echeckBillingAcctKey" id="echeckAcctList" class="form-control select2-hidden-accessible" data-error="Billing Account is required" required="required" style="width: 100%;" tabindex="-1" aria-hidden="true">
+										              <i class="fa fa-credit-card"></i>
+									                       </span>
 
-
-</select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-echeckAcctList-container"><span class="select2-selection__rendered" id="select2-echeckAcctList-container"><span class="select2-selection__placeholder">Select Billing Account</span></span>
-                        <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
-                        </span>
-                        </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-
-
-                      </div>
                     </div>
                     <span id="echeckAcctList_helpBlock" class="help-block with-errors">
 
@@ -131,9 +123,7 @@
                   </div>
                 </div>
               </div>
-              <div id="accountDetails_echeck" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-size-moderate payment-methods-account-details hidden">
-                Account Details:
-              </div>
+
             </div>
             <div id="accountDetails_credit" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-size-moderate payment-methods-account-details hidden">
               Account Details:
@@ -166,7 +156,7 @@
 
 
 </select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paymentMethods_selCreditCardType-container">
-  <!-- <span class="select2-selection__rendered" id="select2-paymentMethods_selCreditCardType-container" title="Visa">Visa</span> -->
+
                       <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
                       </span>
                       </span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
@@ -186,12 +176,13 @@
                     <span class="input-group-addon">
 											<i class="fa fa-credit-card"></i>
 										</span>
-                    <div class="input-icon right">
-                      <input type="text" name="orderStatus.creditCardNumber" maxlength="30" value="" id="paymentMethods_creditCardNumber" class="form-control" data-creditcardnumber="#paymentMethods_selCreditCardType;" data-error="Card Number is required" autocomplete="off"
-                        placeholder="Card #" data-creditcardnumber-error="Card Number is invalid" aria-label="Card Number" required="required">
+                    <div class="input-icon right" ng-controller="userController as usrCtrl">
+
+
+                      <input type="text" maxlength="30" value="" id="ccNumber" class="form-control" data-error="Card Number is required" autocomplete="off" placeholder="Card #" aria-label="Card Number" required="required" ng-model="currentUser.creditCard">
                     </div>
                   </div>
-                  <span id="paymentMethods_creditCardNumber_helpBlock" class="help-block with-errors"></span>
+
                 </div>
               </div>
               <div class="row">
@@ -326,11 +317,6 @@
     <option value="AK.US">Alaska</option>
     <option value="AL.CA">Alberta, Canada</option>
     <option value="AZ.US">Arizona</option>
-    <option value="AR.US">Arkansas</option>
-    <option value="AA.US">Armed Forces Americas</option>
-    <option value="AE.US">Armed Forces Europe</option>
-    <option value="AP.US">Armed Forces Pacific</option>
-    <option value="BC.CA">British Columbia, Canada</option>
     <option value="CA.US">California</option>
     <option value="CO.US">Colorado</option>
     <option value="CT.US">Connecticut</option>
@@ -389,7 +375,6 @@
     <option value="WV.US">West Virginia</option>
     <option value="WI.US">Wisconsin</option>
     <option value="WY.US">Wyoming</option>
-    <option value="YT.CA">Yukon, Canada</option>
 
 
 </select><span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paymentMethods_selRegion-container"><span class="select2-selection__rendered" id="select2-paymentMethods_selRegion-container"><span class="select2-selection__placeholder">Select State/Province</span></span>
@@ -425,28 +410,21 @@
 
     </div>
 
+
     <div class="col-md-12 col-sm-12 col-xs-12 margin-top-large margin-bottom-10">
       <div class="totals margin-bottom-40" role="region" aria-label="Order Totals">
         <h3 class="off-screen">Order Totals</h3>
 
-        <!-- <div>
-          <p class="total-label">Subtotal</p>
-          <p class="total-field"><span id="subtotal">$0.00</span></p>
-        </div>
-        <div id="taxField" hidden="true" style="display: none;">
-          <p class="total-label">Sales Tax</p>
-          <p class="total-field"><span id="salesTax">$0.00</span></p>
-        </div> -->
 
         <div>
           <p class="total-label">Total: <span id="totalAmt">$0.00</span></p>
         </div>
       </div>
-      <!-- <div class="payment-options clearfix col-md-10 col-md-offset-1"> -->
+
       <input type="submit" value="Fund Now!" id="placeMealOrder" name="shared.titles.fundnow" class="btn btn-primary ">
 
       <!-- </div> -->
     </div>
   </div>
-  </div>
+
 </form>
