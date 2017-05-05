@@ -61,4 +61,12 @@ router.delete('/:id', function(req, res) {
 });
 
 
+router.get('/updatedFund', function(req, res) {
+  console.log("i am in updatefund");
+  res.json("UPDATE")
+});
+
+
+
+
 module.exports = router;
