@@ -32,10 +32,6 @@ router.post('/', function(req, res) {
 });
 
 router.post('/updatedFund', function(req, res) {
-
-  console.log("I am in the UpdatedFund");
-  console.log(req.body.creditCard);
-  console.log(req.body.children);
   if (!checkCreditCard(req.body.creditCard)) {
     res.json({
       error: "Credit Card number is not valid.",
@@ -45,16 +41,24 @@ router.post('/updatedFund', function(req, res) {
 
 
     var children = req.body.children;
+    var parentId = null;
 
     for (var i = 0; i < children.length; i++) {
       // children[i]
-      if (children[i].amount) {
-        var amount = parseInt(children[i].amount);
-        var totalFund = children[i].funds += amount;
+      var amount = parseInt(children[i].amount);
+
+      if (amount > 0) {
+        var totalFund = 0;
+        if (children[i].funds === null) {
+          children[i].funds = amount;
+        } else {
+
+          totalFund = children[i].funds += amount;
+        }
+
         delete children[i].amount;
         var childId = children[i]._id;
-        var parentid = children[i].parentid;
-        console.log(totalFund);
+        parentId = children[i].parentid;
 
         Children.findByIdAndUpdate(childId, {
           funds: totalFund
@@ -64,42 +68,30 @@ router.post('/updatedFund', function(req, res) {
           if (err) {
             error: err
           };
-          console.log(model);
 
 
 
-
-          res.json({
-            error: "Credit Card number is valid.",
-            isSuccess: true
-          });
-
-        })
-
-
-
-
+        }) // end children.findByIdAndUpdate
 
       } // end if
 
     } // end for loop
 
+    Children.find({
+      parentid: parentId
+    }, function(err, foundChildren) {
+
+      // return the information including token as JSON
+      res.json({
+        children: foundChildren,
+        error: "Updated success.",
+        isSuccess: true
+      });
+
+    });
 
 
-
-    // res.json({
-    //   error: "Credit Card number is valid.",
-    //   isSuccess: true
-    // });
   }
-  // let creditCardNumber = req.body.currentUser.creditCard;
-  // let children = req.body.currentUser.child;
-  // let childIdsArray = []
-  // for (var i = 0; i < children.length; i++) {
-  //   if (children[i].amount) {
-  //     console.log(children[i].amount);
-  //   }
-  // }
 
 
 

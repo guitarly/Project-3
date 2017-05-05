@@ -2,7 +2,7 @@
 <!--
 <div ng-controller="userController as userctrl">
  -->
-
+{{error_msg}}
 <form ng-submit="submitFund()">
   <div ng-controller="childController as childCtrl">
     <div id="mealAccounts" class="row list-balances clearfix" role="main">
@@ -24,7 +24,7 @@
           <label class="margin-left-small">Amount</label>
         </div>
       </div>
-      <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" ng-repeat="child in currentUser.child">
+      <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" ng-repeat="child in children">
         <input type="text" ng-model="vm.id" value="child._id" hidden>
 
         <div class="header-col col-sm-2 col-md-2 col-lg-3 hidden-xs">
@@ -409,6 +409,7 @@
 
 
     </div>
+
 
     <div class="col-md-12 col-sm-12 col-xs-12 margin-top-large margin-bottom-10">
       <div class="totals margin-bottom-40" role="region" aria-label="Order Totals">

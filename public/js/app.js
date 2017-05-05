@@ -383,6 +383,7 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
       }
     }).then(function(response) {
       vm.children = response.data;
+
       $location.path('/users/funds');
 
     });
@@ -391,13 +392,9 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
 
   $scope.submitFund = function() {
 
-    console.log("Submitfund");
-    console.log("this", this);
-    console.log("$rootScope.currentUser", $rootScope.currentUser);
     var creditCard = $rootScope.currentUser.creditCard;
-    let children = $rootScope.currentUser.child;
-    console.log("creditCard", creditCard);
-    console.log("children", children);
+    let children = this.$parent.children;
+
     $http({
       method: 'POST',
       url: '/users/updatedFund',
@@ -414,6 +411,12 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
 
     }).then(function(response) {
       console.log(response.data);
+      if (response.data.isSuccess) {
+        $rootScope.children = response.data.children;
+        $location.path('/dashboard');
+      } else {
+        $scope.error_msg = response.data.error;
+      }
       // $location.path('/meals/display');
     });
   };
