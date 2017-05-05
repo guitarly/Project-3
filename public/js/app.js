@@ -269,10 +269,8 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
   };
 
   this.updateChild = function(child) {
-
-    console.log("update child");
-    console.log("updateChild clicked");
-    console.log("id");
+      console.log("update child", child);
+      console.log("updateChild clicked");
     $http({
       method: 'PUT',
       url: '/childs/' + child._id,
@@ -286,12 +284,26 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
     });
   };
 
+  this.editOneChild = function(child) {
+      console.log("editOneChild", child);
+      $http({
+        method: 'PUT',
+        url: '/childs/' + child._id,
+        data: child,
+        headers: {
+          'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+        }
+      }).then(function(response) {
+        vm.editableChild = null;
+        vm.getChild();
+      });
+    };
 
-  this.deleteChild = function(id) {
-    console.log("deleting...");
+  this.deleteChild = function(child) {
+      console.log("deleting...");
     $http({
       method: 'DELETE',
-      url: '/childs/' + id,
+      url: '/childs/' + child,
       headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }

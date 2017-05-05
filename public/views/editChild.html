@@ -3,10 +3,10 @@
 
 
 <div class="userpage">
-
     <div class="container">
         <div class="row" >
-            <h1>{{childs.name}}</h1>
+            <h1>{{child.name}}</h1>
+            <!-- navbar header -->
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -14,46 +14,60 @@
                     </div>
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/#!/dashboard">Home</a></li>
-                        <li><a href="/#!/childs/add">Add Child</a></li>
+                        <li><a href="/#!/childs/add">Add Student</a></li>
                         <li><a href="/#!/childs/funds">Funds</a></li>
                     </ul>
                 </div>
             </nav>
-            <div
+            <!-- Show all Students -->
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>School</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat = "child in currentUser.child">
+                            <tr ng-click = "vm.editOneChild(child)">
+                                <th scope = "row">1</th>
+                                <td>{{child.firstname}}</td>
+                                <td>{{child.school}}</td>
+                                <td>{{child.grade}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- form to update child -->
+                    <form ng-submit = "vm.updateChild(child)" ng-if = "currentUser.child === child">
+                        <input type="text" ng-model = "child.firstname" placeholder="firstname"/><br/>
+                        <input type="text" ng-model = "child.lastname" placeholder="lastname"/><br/>
+                        <input type="text" ng-model = "child.school" placeholder="school"/><br/>
+                        <input type="text" ng-model = "child.grade" placeholder="grade"/><br/>
+                        <input type="submit"  value="Update Student"/>
+                    </form>
 
-            ng-repeat = "child in currentUser.child">
-                {{child.firstname}}
-                {{child.firstname}}
+                </div>
+
             </div>
             <div class="header-row clearfix col-md-10 col-md-offset-1">
                 <h3>Edit Student</h3>
             </div>
-            <div  class="header-row clearfix col-md-10 col-md-offset-1">
-                <ul>
-                    <li ng-repeat="child in vm.childs">
-                        <h3 ng-click="vm.editChild(child._id)">{{child.name}}</h3>
-                        <ul ng-if="vm.editableChild == child._id" >
-                            <li>Name {{child.firstname}} {{child.lastname}}</li>
-                            <li>School: {{child.school}}</li>
-                            <li>Grade: {{child.grade}}</li>
-                        </ul>
-                        <br>
-                    </li>
 
-                    <form ng-submit="vm.updateChild(child)"
-                        ng-if="vm.editableChild == child._id">
-
-                        <div class="well well-sm"class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+                    <form ng-submit="vm.updateChild(child)">
+                    <div class="">
+                        <div ng-model="child.firstname" class="well  well-sm"class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                             <label for="">First Name</label>
                             <input class="form-control"  type="text" ng-model="vm.firstname"required=""><br>
                         </div>
-
-                        <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+                    </div>
+                        <div ng-model="child.firstname"class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                             <label for="">Last Name</label>
                             <input class="form-control"  type="text" ng-model="vm.lastname" required=""><br>
                         </div>
 
-                        <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+                        <div ng-model="child.firstname"class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
                             <label for="school">School</label>
                             <select class="form-control" name="School" ng-model="vm.school" required="">
                                 <option>Level Creek Elementary</option>
@@ -67,9 +81,9 @@
                                 <option>Cocoa High School</option>
                             </select><br>
                             <!-- call edit child function on click -->
-                            <input type="submit" value="Update" ng-click="vm.updateChild(child._id)">
+                            <input type="submit" value="Update" ng-click="vm.updateChild(currentUser.child)">
                             <!-- call deleteChild function on click -->
-                            <button class="margin-bottom-small btn btn-default" role="button"  ng-click="vm.deleteChild(child._id)" type="submit" value="Delete"></button>
+                            <button ng-click="vm.deleteChild(currentUser.child)">Delete</button>
                         </div>
                     </form>
                 </ul>
