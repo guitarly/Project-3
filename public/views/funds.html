@@ -2,7 +2,7 @@
 <!--
 <div ng-controller="userController as userctrl">
  -->
-{{error_msg}}
+
 <form ng-submit="submitFund()">
   <div ng-controller="childController as childCtrl">
     <div id="mealAccounts" class="row list-balances clearfix" role="main">
@@ -409,7 +409,9 @@
 
 
     </div>
-
+    <div class="alert alert-danger" ng-if="error_msg.length > 0">
+      {{error_msg}}
+    </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12 margin-top-large margin-bottom-10">
       <div class="totals margin-bottom-40" role="region" aria-label="Order Totals">
