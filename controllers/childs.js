@@ -50,6 +50,16 @@ router.put('/:id', function(req, res) {
       new: true
     },
     function(err, updatedChildren) {
+      console.log("updatedChildren", updatedChildren);
+      Users.findOne({
+        'child._id': req.params.id
+      }, function(err, foundChild) {
+        console.log("foundChild", foundChild);
+
+      });
+
+
+
       res.json(updatedChildren);
     });
 });
@@ -60,12 +70,14 @@ router.delete('/:id', function(req, res) {
   });
 });
 
-
-router.get('/updatedFund', function(req, res) {
-  console.log("i am in updatefund");
-  res.json("UPDATE")
+router.get('/editChild/:id', function(req, res) {
+  console.log("req.body.parentId", req.params.id);
+  Childs.find({
+    parentid: req.params.id
+  }, function(err, foundChild) {
+    res.json(foundChild);
+  });
 });
-
 
 
 

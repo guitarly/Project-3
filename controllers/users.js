@@ -50,9 +50,10 @@ router.post('/updatedFund', function(req, res) {
       if (amount > 0) {
         var totalFund = 0;
         if (children[i].funds === null) {
+          console.log("Children fund black", children[i].firstname);
           children[i].funds = amount;
         } else {
-
+          console.log("have fund", children[i].firstname);
           totalFund = children[i].funds += amount;
         }
 

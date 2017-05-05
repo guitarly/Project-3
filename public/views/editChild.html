@@ -1,61 +1,88 @@
-
-
-
-
 <div class="userpage">
 
-    <div class="container">
-        <div class="row" >
-            <h1>{{childs.name}}</h1>
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#!">School Payment</a>
-                    </div>
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="/#!/dashboard">Home</a></li>
-                        <li><a href="/#!/childs/add">Add Child</a></li>
-                        <li><a href="/#!/childs/funds">Funds</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <div
+  <!-- <div ng-repeat="child in vm.children"> -->
+  <!-- {{child.name}} -->
+  <!-- </div> -->
 
-            ng-repeat = "child in currentUser.child">
-                {{child.firstname}}
-                {{child.firstname}}
+  <div class="container">
+    <div class="row">
+      <!-- <h1>{{childs.name}}</h1> -->
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#!">School Payment</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="">Home</a></li>
+            <li><a href="">Add Child</a></li>
+            <li><a href="">Funds</a></li>
+          </ul>
+        </div>
+      </nav>
+
+
+      <!-- display a list of children -->
+      <div ng-repeat="child in children">
+        <div class="list-row clearfix col-md-10 col-md-offset-1" id="#stat.index" role="region" aria-label="">
+          <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+            <div class="list-col col-dark clearfix">
+              <span class="col-xs-8">
+  						<span title={{child.lastname}}><a href="" ng-click="vm.getChildInfo(child)">  {{child.firstname}} {{child.lastname}}</a></span>
+              </span>
+
             </div>
-            <div class="header-row clearfix col-md-10 col-md-offset-1">
-                <h3>Edit Student</h3>
+
+          </div>
+
+          <div class="list-col clearfix visible-xs col-xs-2">
+            <label class="inner-label">Balance:</label>
+          </div>
+          <div class="col-xs-6 col-xs-offset-4 col-sm-3 col-sm-offset-0 col-md-3 col-lg-2 text-right">
+            <div class="list-col clearfix col-default ">
+              <span class="">
+  						{{child.funds | currency }}
+            </span>
             </div>
-            <div  class="header-row clearfix col-md-10 col-md-offset-1">
-                <ul>
-                    <li ng-repeat="child in vm.childs">
-                        <h3 ng-click="vm.editChild(child._id)">{{child.name}}</h3>
-                        <ul ng-if="vm.editableChild == child._id" >
-                            <li>Name {{child.firstname}} {{child.lastname}}</li>
-                            <li>School: {{child.school}}</li>
-                            <li>Grade: {{child.grade}}</li>
-                        </ul>
-                        <br>
-                    </li>
+          </div>
+        </div>
+      </div>
 
-                    <form ng-submit="vm.updateChild(child)"
-                        ng-if="vm.editableChild == child._id">
+      <!-- children list end here. -->
 
-                        <div class="well well-sm"class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
-                            <label for="">First Name</label>
-                            <input class="form-control"  type="text" ng-model="vm.firstname"required=""><br>
-                        </div>
+      <div class="header-row clearfix col-md-10 col-md-offset-1">
+        <h3>Edit Student</h3>
+      </div>
+      <div class="header-row clearfix col-md-10 col-md-offset-1">
+        <!-- <ul>
+          <li ng-repeat="child in vm.childInfo"> -->
+        <!-- <h3 ng-click="vm.editChild(child._id)">{{child.name}}</h3> -->
+        <!-- <ul ng-if="vm.editableChild == child._id">
+              <li>Name {{child.firstname}} {{child.lastname}}</li>
+              <li>School: {{child.school}}</li>
+              <li>Grade: {{child.grade}}</li>
+            </ul>
+            <br>
+          </li> -->
 
-                        <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
-                            <label for="">Last Name</label>
-                            <input class="form-control"  type="text" ng-model="vm.lastname" required=""><br>
-                        </div>
+        <!-- <form ng-submit="vm.updateChild(child)" ng-if="vm.editableChild == child._id"> -->
 
-                        <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
-                            <label for="school">School</label>
-                            <select class="form-control" name="School" ng-model="vm.school" required="">
+        <div>
+          <form>
+
+            <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+              <label for="">First Name</label>
+              <input class="form-control" type="text" ng-model="vm.childInfo.firstname" required="" value="{{vm.childInfo.firstname}}"><br>
+            </div>
+
+            <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+              <label for="">Last Name</label>
+              <input class="form-control" type="text" ng-model="vm.childInfo.lastname" required="" value="{{vm.childInfo.lastname}}"><br>
+            </div>
+
+            <div class="well well-sm" class="header-col col-sm-9 col-md-9 col-lg-10 hidden-xs">
+              <label for="school">School</label>
+              <select class="form-control" name="School" ng-model="vm.childInfo.school" required="">
                                 <option>Level Creek Elementary</option>
                                 <option>North Gwinnett Middle School</option>
                                 <option>North Gwinnett High School</option>
@@ -66,14 +93,15 @@
                                 <option>Ronald McNair Middle School</option>
                                 <option>Cocoa High School</option>
                             </select><br>
-                            <!-- call edit child function on click -->
-                            <input type="submit" value="Update" ng-click="vm.updateChild(child._id)">
-                            <!-- call deleteChild function on click -->
-                            <button class="margin-bottom-small btn btn-default" role="button"  ng-click="vm.deleteChild(child._id)" type="submit" value="Delete"></button>
-                        </div>
-                    </form>
-                </ul>
+              <!-- call edit child function on click -->
+              <input type="submit" value="Update" ng-submit="vm.updateChild(childInfo)">
+              <!-- call deleteChild function on click -->
+              <button class="margin-bottom-small btn btn-default" role="button" ng-click="vm.deleteChild(child._id)" type="submit" value="Delete"></button>
             </div>
+          </form>
         </div>
+        <!-- </ul> -->
+      </div>
     </div>
+  </div>
 </div>

@@ -253,19 +253,25 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
 
   this.editChild = function(id) {
     console.log("editChild clicked");
-    console.log("currentUser", $rootScope.currentUser);
-    $location.path('/childs/editChild');
-    console.log(id);
-    //   $http({
-    //       method: "GET",
-    //       url: '/childs/editChild',
-    //       headers: {
-    //         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-    //       }
-    //   }).then(function(response) {
-    //       console.log(response);
-    //       vm.childs = response.data;
-    //   });
+    console.log("$rootScope.children", $rootScope.children);
+    // console.log("currentUser", $rootScope.currentUser);
+    // $location.path('/childs/editChild');
+
+    var parentId = $rootScope.currentUser._id;
+    console.log("parentId", parentId);
+    $http({
+      method: "GET",
+      url: '/childs/editChild/' + parentId,
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+      }
+    }).then(function(response) {
+      console.log(response);
+      $rootScope.children = response.data;
+      console.log("response.data", response.data);
+      $location.path('/childs/editChild');
+    });
+
   };
 
   this.updateChild = function(child) {
@@ -281,8 +287,9 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
     }).then(function(response) {
+      vm.childInfo = response.data;
       vm.editableChild = null;
-      vm.getChild();
+      // vm.getChild();
     });
   };
 
@@ -304,6 +311,11 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
     console.log("in addchild function");
     $location.path("/childs/add");
   };
+
+  this.getChildInfo = function(child) {
+    vm.childInfo = child;
+  };
+
 
 }]);
 
@@ -432,7 +444,9 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
       }
 
     }).then(function(response) {
-      console.log(response.data);
+
+      console.log("response.data - submitFund", response.data);
+
       if (response.data.isSuccess) {
         $rootScope.children = response.data.children;
         $location.path('/dashboard');
@@ -447,9 +461,6 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
 
 // -------
 
-function checkCreditCard(number) {
-
-}
 
 // Server - set cookies
 app.factory("userPersistenceService", [
