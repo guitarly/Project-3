@@ -1,6 +1,8 @@
 var app = angular.module('School-App', ['ngRoute', 'ngCookies']);
 
+// app.config(function($routeProvider) {
 app.config(function($routeProvider) {
+
 
   $routeProvider
     .when('/', {
@@ -44,7 +46,7 @@ app.config(function($routeProvider) {
       controller: 'childController',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
-    }).when('/childs/:id', {
+    }).when('/childs/edit', {
       controller: 'childController',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
@@ -65,6 +67,9 @@ app.config(function($routeProvider) {
 
 });
 
+app.config(['$qProvider', function($qProvider) {
+  $qProvider.errorOnUnhandledRejections(false);
+}]);
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
   // app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
@@ -139,6 +144,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $scope.error_msg = null;
     localStorage.clear('token');
     userPersistenceService.clearCookieData('userName');
+    $location.path("/");
     location.reload();
 
   };
@@ -164,6 +170,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       }
     }.bind(this));
   };
+
 }]);
 
 
@@ -217,7 +224,8 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
       }
     }).then(function(response) {
       console.log("what", response);
-      vm.childs = response.data;
+      vm.child = response.data;
+      $location.path("/meals/display");
     });
 
   };
@@ -242,7 +250,7 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
   };
 
   this.updateChild = function(child) {
-      console.log("update child");
+    console.log("update child");
     $http({
       method: 'PUT',
       url: '/childs/' + child._id,
@@ -269,6 +277,10 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
     });
   };
 
+  this.addChild = function() {
+    console.log("in addchild function");
+    $location.path("/childs/add");
+  };
 
 
 }]);
@@ -282,7 +294,7 @@ app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', 
   //added a meals
   this.addMeal = function(childid) {
     console.log("clickedddddd");
-console.log(childid);
+    console.log(childid);
     $http({
       method: 'POST',
       url: '/meals',
@@ -352,9 +364,13 @@ console.log(childid);
   };
 }]);
 
-// Set UserCont Control
+
+// -----------------
+// Set User Control
+// ---------------------------
 app.controller('userController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
   var vm = this;
+  this.creditCard = null;
 
   // get the parent with chidren (student) .. go to fund page to fund them.
   this.fundStudent = function(parentId) {
@@ -366,7 +382,6 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
     }).then(function(response) {
-      console.log(response.data);
       vm.children = response.data;
       $location.path('/users/funds');
 
@@ -374,10 +389,44 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
 
   };
 
+  $scope.submitFund = function() {
 
+    console.log("Submitfund");
+    console.log("this", this);
+    console.log("$rootScope.currentUser", $rootScope.currentUser);
+    var creditCard = $rootScope.currentUser.creditCard;
+    let children = $rootScope.currentUser.child;
+    console.log("creditCard", creditCard);
+    console.log("children", children);
+    $http({
+      method: 'POST',
+      url: '/users/updatedFund',
+      data: {
+        creditCard: creditCard,
+        children: children
+
+      },
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+        // ,
+        // 'Content-Type': 'application/x-www-form-urlencoded'
+      }
+
+    }).then(function(response) {
+      console.log(response.data);
+      // $location.path('/meals/display');
+    });
+  };
 
 }]);
 
+// -------
+
+function checkCreditCard(number) {
+
+}
+
+// Server - set cookies
 app.factory("userPersistenceService", [
   "$cookies",
   function($cookies) {
