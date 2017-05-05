@@ -1,6 +1,8 @@
 var app = angular.module('School-App', ['ngRoute', 'ngCookies']);
 
+// app.config(function($routeProvider) {
 app.config(function($routeProvider) {
+
 
   $routeProvider
     .when('/', {
@@ -44,7 +46,8 @@ app.config(function($routeProvider) {
       controller: 'childController',
       templateUrl: 'views/addChild.html',
       controllerAs: 'vm'
-  }).when('/childs/editChild', {
+
+    }).when('/childs/editChild', {
       controller: 'childController',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
@@ -53,11 +56,11 @@ app.config(function($routeProvider) {
       controller: 'childController',
       templateUrl: 'views/mealhistory.html',
       controllerAs: 'vm'
-  }).when('/childs/getChildren', {
+    }).when('/childs/getChildren', {
       controller: 'childController',
       templateUrl: 'views/editChild.html',
       controllerAs: 'vm'
-  })
+    })
     .when('/users/funds', {
       controller: 'userController',
       templateUrl: 'views/funds.html',
@@ -70,6 +73,9 @@ app.config(function($routeProvider) {
 
 });
 
+app.config(['$qProvider', function($qProvider) {
+  $qProvider.errorOnUnhandledRejections(false);
+}]);
 // Set Control
 app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cookies', '$window', 'userPersistenceService', function($http, $scope, $location, $rootScope, $cookies, $window, userPersistenceService) {
   // app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
@@ -144,6 +150,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
     $scope.error_msg = null;
     localStorage.clear('token');
     userPersistenceService.clearCookieData('userName');
+    $location.path("/");
     location.reload();
 
   };
@@ -169,6 +176,7 @@ app.controller('loginCtr', ['$http', '$scope', '$location', '$rootScope', '$cook
       }
     }.bind(this));
   };
+
 }]);
 
 
@@ -222,7 +230,8 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
       }
     }).then(function(response) {
       console.log("what", response);
-      vm.childs = response.data;
+      vm.child = response.data;
+      $location.path("/meals/display");
     });
 
   };
@@ -243,10 +252,10 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
   };
 
   this.editChild = function(id) {
-      console.log("editChild clicked");
-      console.log("currentUser", $rootScope.currentUser);
-      $location.path('/childs/editChild');
-      console.log(id);
+    console.log("editChild clicked");
+    console.log("currentUser", $rootScope.currentUser);
+    $location.path('/childs/editChild');
+    console.log(id);
     //   $http({
     //       method: "GET",
     //       url: '/childs/editChild',
@@ -302,6 +311,12 @@ app.controller('childController', ['$http', '$scope', '$location', '$rootScope',
       vm.getChild();
     });
   };
+
+  this.addChild = function() {
+    console.log("in addchild function");
+    $location.path("/childs/add");
+  };
+
 }]);
 
 // Set Meals Control
@@ -313,7 +328,7 @@ app.controller('mealController', ['$http', '$scope', '$location', '$rootScope', 
   //added a meals
   this.addMeal = function(childid) {
     console.log("clickedddddd");
-console.log(childid);
+    console.log(childid);
     $http({
       method: 'POST',
       url: '/meals',
@@ -383,9 +398,13 @@ console.log(childid);
   };
 }]);
 
-// Set UserCont Control
+
+// -----------------
+// Set User Control
+// ---------------------------
 app.controller('userController', ['$http', '$scope', '$location', '$rootScope', function($http, $scope, $location, $rootScope) {
   var vm = this;
+  this.creditCard = null;
 
   // get the parent with chidren (student) .. go to fund page to fund them.
   this.fundStudent = function(parentId) {
@@ -397,18 +416,54 @@ app.controller('userController', ['$http', '$scope', '$location', '$rootScope', 
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
       }
     }).then(function(response) {
-      console.log(response.data);
       vm.children = response.data;
+
       $location.path('/users/funds');
 
     });
 
   };
 
+  $scope.submitFund = function() {
 
+    var creditCard = $rootScope.currentUser.creditCard;
+    let children = this.$parent.children;
+
+    $http({
+      method: 'POST',
+      url: '/users/updatedFund',
+      data: {
+        creditCard: creditCard,
+        children: children
+
+      },
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+        // ,
+        // 'Content-Type': 'application/x-www-form-urlencoded'
+      }
+
+    }).then(function(response) {
+      console.log(response.data);
+      if (response.data.isSuccess) {
+        $rootScope.children = response.data.children;
+        $location.path('/dashboard');
+      } else {
+        $scope.error_msg = response.data.error;
+      }
+      // $location.path('/meals/display');
+    });
+  };
 
 }]);
 
+// -------
+
+function checkCreditCard(number) {
+
+}
+
+// Server - set cookies
 app.factory("userPersistenceService", [
   "$cookies",
   function($cookies) {
