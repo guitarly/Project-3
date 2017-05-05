@@ -53,6 +53,7 @@ router.post('/updatedFund', function(req, res) {
         var totalFund = children[i].funds += amount;
         delete children[i].amount;
         var childId = children[i]._id;
+        var parentid = children[i].parentid;
         console.log(totalFund);
 
         Children.findByIdAndUpdate(childId, {
@@ -64,6 +65,10 @@ router.post('/updatedFund', function(req, res) {
             error: err
           };
           console.log(model);
+
+
+
+
           res.json({
             error: "Credit Card number is valid.",
             isSuccess: true
